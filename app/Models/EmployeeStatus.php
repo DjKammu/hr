@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class EmployeeStatus extends Model
 {
     use HasFactory;
+
+     protected $perPage = 20;
+
+    protected $fillable = [
+     'name' , 'slug' ,'account_number'
+    ];
 }

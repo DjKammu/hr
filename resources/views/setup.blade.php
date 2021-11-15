@@ -25,13 +25,14 @@
                     <div class="col-12">
                        <button type="button" class="btn btn-danger mt-0"  onclick="return window.location.href='{{ route("company-types.index") }}'">Company Types
                         </button>
-
-                         <!-- 
-                        <button type="button" class="btn btn-danger mt-0"  onclick="return window.location.href='{{ route("project-types.index") }}'">Project Types
-                        </button>  -->
-
-                        <!--  <button type="button" class="btn btn-danger mt-0"  onclick="return window.location.href='{{ route("categories.index") }}'">Categories
+                       
+                       <button type="button" class="btn btn-danger mt-0"  onclick="return window.location.href='{{ route("departments.index") }}'">Departments
                         </button>
+     
+                        <button type="button" class="btn btn-danger mt-0"  onclick="return window.location.href='{{ route("employee-status.index") }}'">Employee Status
+                        </button> 
+
+                        <!--  
                         <button type="button" class="btn btn-danger mt-0"  onclick="return window.location.href='{{ route("trades.index") }}'">Trades
                         </button>
 

@@ -1,6 +1,6 @@
 @extends('layouts.admin-app')
 
-@section('title', 'Categories')
+@section('title', 'Employee Status')
 
 @section('content')
       <!-- Start Main View -->
@@ -26,10 +26,10 @@
             <div class="card-body">
                 <div class="row mb-2">
                     <div class="col-6">
-                        <h4 class="mt-0 text-left">Categories List</h4>
+                        <h4 class="mt-0 text-left">Employee status List</h4>
                     </div>
                     <div class="col-6 text-right">
-                        <button type="button" class="btn btn-danger mt-0"  onclick="return window.location.href='categories/create'">Add Category
+                        <button type="button" class="btn btn-danger mt-0"  onclick="return window.location.href='employee-status/create'">Add Employee status
                         </button>
                     </div>
                 </div>
@@ -39,31 +39,31 @@
                         <thead>
                         <tr class="text-daQQQQQQZqnger">
                             <th>Acc. No.</th>
-                            <th>Category</th>
+                            <th>Employee Status</th>
                             <!-- <th>Categorys</th> -->
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>
                         </thead>
                         <tbody>
-                          @foreach($categories as $type)
+                          @foreach($employee_status as $type)
                          <tr>
                            <td> {{ $type->account_number }}</td>
                            <td>{{ $type->name }}</td>
                            <td>        
-                            <button onclick="return window.location.href='categories/{{$type->id}}'" rel="tooltip" class="btn btn-neutral bg-transparent btn-icon" data-original-title="Edit Category Type" title="Edit Category">            <i class="fa fa-edit text-success"></i>        </button> 
+                            <button onclick="return window.location.href='employee-status/{{$type->id}}'" rel="tooltip" class="btn btn-neutral bg-transparent btn-icon" data-original-title="Edit Category Type" title="Edit Category">            <i class="fa fa-edit text-success"></i>        </button> 
                           </td>
                           <td>
                              <form 
                               method="post" 
-                              action="{{route('categories.destroy',$type->id)}}"> 
+                              action="{{route('employee-status.destroy',$type->id)}}"> 
                                @csrf
                               {{ method_field('DELETE') }}
 
                               <button 
                                 type="submit"
                                 onclick="return confirm('Are you sure?')"
-                                class="btn btn-neutral bg-transparent btn-icon" data-original-title="Delete Category Type" title="Delete Category"><i class="fa fa-trash text-danger"></i> </button>
+                                class="btn btn-neutral bg-transparent btn-icon" data-original-title="Delete Category Type" title="Delete Employee Status"><i class="fa fa-trash text-danger"></i> </button>
                             </form>
                            </td>
                          </tr> 
@@ -72,7 +72,7 @@
                         </tbody>
                     </table>
                 </div>
-                 {!! $categories->render() !!}
+                 {!! $employee_status->render() !!}
             </div>
         </div>
     </div>

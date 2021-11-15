@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Category;
+use App\Models\Department;
 use App\Models\Document;
 use Gate;
 
 
-class CategoryController extends Controller
+class DepartmentController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -31,11 +31,11 @@ class CategoryController extends Controller
                return abort('401');
          } 
 
-         $categories = Category::orderBy('account_number');
+         $departments = Department::orderBy('account_number');
 
-         $categories = $categories->paginate((new Category())->perPage); 
+         $departments = $departments->paginate((new Department())->perPage); 
          
-         return view('categories.index',compact('categories'));
+         return view('departments.index',compact('departments'));
     }
 
     /**
@@ -49,7 +49,7 @@ class CategoryController extends Controller
                return abort('401');
          } 
 
-        return view('categories.create');
+        return view('departments.create');
     }
 
     /**
@@ -67,18 +67,15 @@ class CategoryController extends Controller
         $data = $request->except('_token');
 
         $request->validate([
-              'name' => 'required|unique:categories',
-              'account_number' => 'required|unique:categories',
+              'name' => 'required|unique:departments',
+              'account_number' => 'required|unique:departments',
         ]);
 
         $data['slug'] = \Str::slug($request->name);
             
-        Category::create($data);
+        Department::create($data);
 
-        // $path = public_path().'/'.Document::PROPERTY.'/' . $data['slug'];
-        // \File::makeDirectory($path, $mode = 0777, true, true);
-
-        return redirect('categories')->with('message', 'Category Created Successfully!');
+        return redirect('departments')->with('message', 'Department Created Successfully!');
     }
 
     /**
@@ -93,8 +90,8 @@ class CategoryController extends Controller
                return abort('401');
           } 
 
-         $type = Category::find($id);
-         return view('categories.edit',compact('type'));
+         $type = Department::find($id);
+         return view('departments.edit',compact('type'));
     }
 
     /**
@@ -124,30 +121,21 @@ class CategoryController extends Controller
         $data = $request->except('_token');
 
         $request->validate([
-              'name' => 'required|unique:categories,name,'.$id,
-              'account_number' => 'required|unique:categories,account_number,'.$id,
+              'name' => 'required|unique:departments,name,'.$id,
+              'account_number' => 'required|unique:departments,account_number,'.$id,
         ]);
 
         $data['slug'] = \Str::slug($request->name);
          
-         $category = Category::find($id);
-         $slug = $data['slug'];
-         $oldSlug = $category->slug;
+         $department = Department::find($id);
         
-         if(!$category){
+         if(!$department){
             return redirect()->back();
          }
           
+         $department->update($data);
 
-        // if($slug != $oldSlug)
-        //  {
-        //    $path = public_path().'/'.Document::PROPERTY;
-        //    @rename($path.$oldSlug, $path.$slug);
-        //  }
-
-         $category->update($data);
-
-        return redirect('categories')->with('message', 'Category Updated Successfully!');
+        return redirect('departments')->with('message', 'Department Updated Successfully!');
     }
 
     /**
@@ -162,13 +150,10 @@ class CategoryController extends Controller
                return abort('401');
           } 
 
-         $category = Category::find($id);
-         // $path = public_path().'/'. Document::PROPERTY.'/'; 
-         // @\File::copyDirectory($path.$project_type->slug, $path.Document::ARCHIEVED);
-         // @\File::deleteDirectory($path.$project_type->slug);
+         $department = Department::find($id);
 
-         $category->delete();       
+         $department->delete();       
 
-        return redirect()->back()->with('message', 'Category Delete Successfully!');
+        return redirect()->back()->with('message', 'Department Delete Successfully!');
     }
 }

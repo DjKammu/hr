@@ -60,6 +60,10 @@ Route::resource('roles', App\Http\Controllers\RoleController::class)->middleware
 
 Route::resource('company-types', App\Http\Controllers\CompanyController::class);
 
+Route::resource('departments', App\Http\Controllers\DepartmentController::class);
+Route::resource('employee-status', App\Http\Controllers\EmployeeStatusController::class);
+
+
 
 
 Route::resource('project-types', App\Http\Controllers\ProjectTypeController::class);
@@ -68,7 +72,6 @@ Route::resource('projects', App\Http\Controllers\ProjectController::class);
 
 Route::resource('document-types', App\Http\Controllers\DocumentTypeController::class);
 
-Route::resource('categories', App\Http\Controllers\CategoryController::class);
 
 
 Route::get('documents/search', [App\Http\Controllers\DocumentController::class,'search'])->name('documents.search');
