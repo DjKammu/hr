@@ -219,7 +219,7 @@
             <div class="card-footer ">
                 <hr>
                 <div class="stats">
-                    <a href="{{ route('categories.index') }}" class="text-muted"><i class="fa fa-eye"></i> View All</a>
+                    <a href="" class="text-muted"><i class="fa fa-eye"></i> View All</a>
                 </div>
             </div>
         </div>
