@@ -34,9 +34,14 @@
 
                          <button type="button" class="btn btn-danger mt-0"  onclick="return window.location.href='{{ route("employees.index") }}'">Employees
                         </button>
+                        
+                        <button type="button" class="btn btn-danger mt-0"  onclick="return window.location.href='{{ route("document-types.index") }}'">Document Types
+                        </button>
+
+                        <button type="button" class="btn btn-danger mt-0"  onclick="return window.location.href='{{ route("leave-types.index") }}'">Leave Types
+                        </button>
 
                         <!--  
-                       
 
                         <button type="button" class="btn btn-danger mt-0"  onclick="return window.location.href='{{ route("subcontractors.index") }}'">Subcontractors
                         </button>

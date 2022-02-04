@@ -1,6 +1,6 @@
 @extends('layouts.admin-app')
 
-@section('title', 'Project Type')
+@section('title', 'Leave Type')
 
 @section('content')
 
@@ -29,7 +29,7 @@
             <div class="card-body">
               <div class="row mb-2">
                     <div class="col-6">
-                        <h4 class="mt-0 text-left">Edit Project Type</h4>
+                        <h4 class="mt-0 text-left">Edit Leave Type</h4>
                     </div>
                 </div>
 
@@ -37,7 +37,7 @@
                         <div class="col-md-12">
                             <div class="card-body">
                                 <form   method="post" 
-                              action="{{ route('project-types.update',$type->id) }}">
+                              action="{{ route('leave-types.update',$type->id) }}">
                               <input type="hidden" name="_method" value="PUT">
                                   @csrf
 
@@ -47,7 +47,7 @@
                                             <div class="form-group">
                                                 <label class="text-dark" for="password">Name 
                                                 </label>
-                                                <input  name="name" value="{{ $type->name }}" type="text" class="form-control" placeholder="Project Name" required="">
+                                                <input  name="name" value="{{ $type->name }}" type="text" class="form-control" placeholder="Leave Name" required="">
                                             </div>
                                         </div>
                                     </div>
@@ -65,7 +65,7 @@
 
                                     <!-- Submit Button -->
                                     <div class="col-12 text-center">
-                                        <button id="change-password-button" type="submit" class="btn btn-danger">Update Project Type
+                                        <button id="change-password-button" type="submit" class="btn btn-danger">Update Leave Type
                                         </button>
                                     </div>
 

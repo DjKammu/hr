@@ -1,6 +1,6 @@
 @extends('layouts.admin-app')
 
-@section('title', 'Project Type')
+@section('title', 'Leave Type')
 
 @section('content')
       <!-- Start Main View -->
@@ -26,10 +26,10 @@
             <div class="card-body">
                 <div class="row mb-2">
                     <div class="col-6">
-                        <h4 class="mt-0 text-left">Project Types List</h4>
+                        <h4 class="mt-0 text-left">Leave Types List</h4>
                     </div>
                     <div class="col-6 text-right">
-                        <button type="button" class="btn btn-danger mt-0"  onclick="return window.location.href='project-types/create'">Add Project Type
+                        <button type="button" class="btn btn-danger mt-0"  onclick="return window.location.href='leave-types/create'">Add Leave Type
                         </button>
                     </div>
                 </div>
@@ -39,24 +39,24 @@
                         <thead>
                         <tr class="text-danger">
                             <th>Acc. No.</th>
-                            <th>Project Type</th>
+                            <th>Leave Type</th>
                             <!-- <th>Projects</th> -->
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>
                         </thead>
                         <tbody>
-                          @foreach($projectTypes as $type)
+                          @foreach($leaveTypes as $type)
                          <tr>
                            <td> {{ $type->account_number }}</td>
                            <td>{{ $type->name }}</td>
                            <td>        
-                            <button onclick="return window.location.href='project-types/{{$type->id}}'" rel="tooltip" class="btn btn-neutral bg-transparent btn-icon" data-original-title="Edit Project Type" title="Edit Project Type">            <i class="fa fa-edit text-success"></i>        </button> 
+                            <button onclick="return window.location.href='leave-types/{{$type->id}}'" rel="tooltip" class="btn btn-neutral bg-transparent btn-icon" data-original-title="Edit Project Type" title="Edit Project Type">            <i class="fa fa-edit text-success"></i>        </button> 
                           </td>
                           <td>
                              <form 
                               method="post" 
-                              action="{{route('project-types.destroy',$type->id)}}"> 
+                              action="{{route('leave-types.destroy',$type->id)}}"> 
                                @csrf
                               {{ method_field('DELETE') }}
 
@@ -72,7 +72,7 @@
                         </tbody>
                     </table>
                 </div>
-                 {!! $projectTypes->render() !!}
+                 {!! $leaveTypes->render() !!}
             </div>
         </div>
     </div>

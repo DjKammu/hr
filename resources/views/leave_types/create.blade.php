@@ -1,6 +1,6 @@
 @extends('layouts.admin-app')
 
-@section('title', 'Project Type')
+@section('title', 'Leave Type')
 
 @section('content')
 
@@ -29,7 +29,7 @@
             <div class="card-body">
               <div class="row mb-2">
                     <div class="col-6">
-                        <h4 class="mt-0 text-left">Add Project Type</h4>
+                        <h4 class="mt-0 text-left">Add Leave Type</h4>
                     </div>
                 </div>
 
@@ -37,7 +37,7 @@
                         <div class="col-md-12">
                             <div class="card-body">
                                 <form   method="post" 
-                              action="{{ route('project-types.store') }}">
+                              action="{{ route('leave-types.store') }}">
                                   @csrf
 
                                     <!-- Current Password -->
@@ -46,7 +46,7 @@
                                             <div class="form-group">
                                                 <label class="text-dark" for="password">Name 
                                                 </label>
-                                                <input  name="name" value="{{ old('name')}}" type="text" class="form-control" placeholder="Project Name" required="">
+                                                <input  name="name" value="{{ old('name')}}" type="text" class="form-control" placeholder="Leave Name" required="">
                                             </div>
                                         </div>
                                     </div>
@@ -65,7 +65,7 @@
 
                                     <!-- Submit Button -->
                                     <div class="col-12 text-center">
-                                        <button id="change-password-button" type="submit" class="btn btn-danger">Create Project Type
+                                        <button id="change-password-button" type="submit" class="btn btn-danger">Create Leave Type
                                         </button>
                                     </div>
 

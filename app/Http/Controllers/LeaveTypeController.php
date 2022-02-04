@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\ProjectType;
+use App\Models\LeaveType;
 use App\Models\Document;
 use Gate;
 
 
-class ProjectTypeController extends Controller
+class LeaveTypeController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -31,11 +31,11 @@ class ProjectTypeController extends Controller
                return abort('401');
          } 
 
-         $projectTypes = ProjectType::orderBy('account_number');
+         $leaveTypes = LeaveType::orderBy('account_number');
 
-         $projectTypes = $projectTypes->paginate((new ProjectType())->perPage); 
+         $leaveTypes = $leaveTypes->paginate((new LeaveType())->perPage); 
          
-         return view('project_types.index',compact('projectTypes'));
+         return view('leave_types.index',compact('leaveTypes'));
     }
 
     /**
@@ -49,7 +49,7 @@ class ProjectTypeController extends Controller
                return abort('401');
          } 
 
-        return view('project_types.create');
+        return view('leave_types.create');
     }
 
     /**
@@ -67,18 +67,15 @@ class ProjectTypeController extends Controller
         $data = $request->except('_token');
 
         $request->validate([
-              'name' => 'required|unique:project_types',
-              'account_number' => 'required|unique:project_types',
+              'name' => 'required|unique:leave_types',
+              'account_number' => 'required|unique:leave_types',
         ]);
 
         $data['slug'] = \Str::slug($request->name);
             
-        ProjectType::create($data);
+        LeaveType::create($data);
 
-        $path = public_path().'/'.Document::PROJECT.'/' . $data['slug'];
-        \File::makeDirectory($path, $mode = 0777, true, true);
-
-        return redirect('project-types')->with('message', 'Project Type Created Successfully!');
+        return redirect('leave-types')->with('message', 'Leave Type Created Successfully!');
     }
 
     /**
@@ -93,8 +90,8 @@ class ProjectTypeController extends Controller
                return abort('401');
           } 
 
-         $type = ProjectType::find($id);
-         return view('project_types.edit',compact('type'));
+         $type = LeaveType::find($id);
+         return view('leave_types.edit',compact('type'));
     }
 
     /**
@@ -124,13 +121,13 @@ class ProjectTypeController extends Controller
         $data = $request->except('_token');
 
         $request->validate([
-              'name' => 'required|unique:project_types,name,'.$id,
-              'account_number' => 'required|unique:project_types,account_number,'.$id,
+              'name' => 'required|unique:leave_types,name,'.$id,
+              'account_number' => 'required|unique:leave_types,account_number,'.$id,
         ]);
 
         $data['slug'] = \Str::slug($request->name);
          
-         $type = ProjectType::find($id);
+         $type = LeaveType::find($id);
          $slug = $data['slug'];
          $oldSlug = $type->slug;
         
@@ -139,15 +136,9 @@ class ProjectTypeController extends Controller
          }
           
 
-        if($slug != $oldSlug)
-         {
-           $path = public_path().'/'.Document::PROJECT;
-           @rename($path.$oldSlug, $path.$slug);
-         }
-
          $type->update($data);
 
-        return redirect('project-types')->with('message', 'Project Type Updated Successfully!');
+        return redirect('leave-types')->with('message', 'Leave Type Updated Successfully!');
     }
 
     /**
@@ -162,13 +153,13 @@ class ProjectTypeController extends Controller
                return abort('401');
           } 
 
-         $project_type = ProjectType::find($id);
-         $path = public_path().'/'. Document::PROJECT.'/'; 
-         @\File::copyDirectory($path.$project_type->slug, $path.Document::ARCHIEVED);
-         @\File::deleteDirectory($path.$project_type->slug);
+         $leaveType = LeaveType::find($id);
+         // $path = public_path().'/'. Document::PROJECT.'/'; 
+         // @\File::copyDirectory($path.$project_type->slug, $path.Document::ARCHIEVED);
+         // @\File::deleteDirectory($path.$project_type->slug);
 
-         $project_type->delete();       
+         $leaveType->delete();       
 
-        return redirect()->back()->with('message', 'Project Type Delete Successfully!');
+        return redirect()->back()->with('message', 'Leave Type Delete Successfully!');
     }
 }
