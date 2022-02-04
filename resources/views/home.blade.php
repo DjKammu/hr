@@ -35,33 +35,6 @@
         </div>
     </div> -->
 
-    <!-- Trades Overview -->
-    <!-- <div class="col-lg-4 col-md-6 col-sm-6">
-        <div class="card card-stats">
-            <div class="card-body ">
-                <div class="row">
-                    <div class="col-5 col-md-4">
-                        <div class="icon-big text-center icon-warning">
-                            <i class="fa fa-building-o text-success"></i>
-                        </div>
-                    </div>
-                    <div class="col-7 col-md-8">
-                        <div class="numbers">
-                            <p class="card-category">Projects</p>
-                            <p id="trades_count" class="card-title">{{ @$projects }}<p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card-footer ">
-                <hr>
-                <div class="stats">
-                    <a href="{{ route('projects.index')}}" class="text-muted"><i class="fa fa-eye"></i> View All</a>
-                </div>
-            </div>
-        </div>
-    </div>
- -->
      <!-- Files Overview -->
     <div class="col-lg-4 col-md-6 col-sm-6">
         <div class="card card-stats">
