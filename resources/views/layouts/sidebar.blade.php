@@ -67,16 +67,9 @@
             </li>
              
             @can('view')
+             
 
-            <!-- Property Types -->
-           <!--   <li class="{{ Request::is('projects*') ? 'active' : '' }}">
-                <a href="{{ route('projects.index') }}">
-                    <i class="nc-icon nc-bank"></i>
-                    <i class="fa fa-building-o"></i>
-                    <p>Projects</p>
-                </a>
-            </li> -->
-
+             
             @endcan
 
 

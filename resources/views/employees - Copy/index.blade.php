@@ -1,6 +1,6 @@
 @extends('layouts.admin-app')
 
-@section('title', 'Projects')
+@section('title', 'Employees')
 
 @section('content')
       <!-- Start Main View -->
@@ -26,10 +26,10 @@
             <div class="card-body">
                 <div class="row mb-2">
                     <div class="col-6">
-                        <h4 class="mt-0 text-left">Projects List</h4>
+                        <h4 class="mt-0 text-left">Employees List</h4>
                     </div>
                     <div class="col-6 text-right">
-                        <button type="button" class="btn btn-danger mt-0"  onclick="return window.location.href='projects/create'">Add Project
+                        <button type="button" class="btn btn-danger mt-0"  onclick="return window.location.href='employees/create'">Add Employee
                         </button>
                     </div>
                 </div>
@@ -37,8 +37,8 @@
                 <div class="row mb-2">
                     <div class="col-6">
                        <select style="height: 26px;" onchange="return window.location.href = '?p='+this.value"> 
-                      <option>Select Project Type</option>
-                      @foreach($projectTypes as $type)
+                      <option>Select Employee Status</option>
+                      @foreach($employeeStatus as $type)
                          <option value="{{ $type->slug }}" {{ (@request()->p == $type->slug) ? 'selected' : ''}}> {{ $type->name }}</option>
                       @endforeach
                       </select>
@@ -66,28 +66,28 @@
                             </tr>
                          </thead>
                          <tbody class="row">
-                          @foreach($projects as $project)
+                          @foreach($employees as $employee)
                             <tr class="text-center col-lg-4 col-sm-6 odd" style="display: flex; flex-wrap: wrap;" role="row">
                                <td>
-                                  <a style="text-decoration: none; position: relative;" href="projects/{{ $project->id }}">
+                                  <a style="text-decoration: none; position: relative;" href="employees/{{ $employee->id }}">
                                     <span class="cross"> 
                                      <form 
                                         method="post" 
-                                        action="{{route('projects.destroy',$project->id)}}"> 
+                                        action="{{route('employees.destroy',$employee->id)}}"> 
                                          @csrf
                                         {{ method_field('DELETE') }}
 
                                         <button 
                                           type="submit"
                                           onclick="return confirm('Are you sure?')"
-                                          class="btn btn-neutral bg-transparent btn-icon" data-original-title="Delete Property Type" title="Delete Property Type"><i class="fa fa-trash text-danger"></i> </button>
+                                          class="btn btn-neutral bg-transparent btn-icon" data-original-title="Delete Employee" title="Delete Employee "><i class="fa fa-trash text-danger"></i> </button>
                                       </form>
                                     </span>
                                      <div class="card card-user card-table-item" style="width: 100%; height: 100%;">
                                         <div class="card-body pb-0">
                                            <div class="author mt-1">
-                                              <img class="avatar border-gray" src="{{ ($project->photo) ? url(\Storage::url($project->photo)) : asset('img/image_placeholder.png') }}">                        
-                                              <h5 class="title mb-0">{{ $project->name }}</h5>
+                                              <img class="avatar border-gray" src="{{ ($employee->photo) ? url(\Storage::url($employee->photo)) : asset('img/image_placeholder.png') }}">                        
+                                              <h5 class="title mb-0">{{ $employee->name }}</h5>
                                            </div>
                                         </div>
                                      </div>
@@ -100,7 +100,7 @@
                       </table>
                 </div>
 
-                {!! $projects->render() !!}
+                {!! $employees->render() !!}
             </div>
         </div>
     </div>

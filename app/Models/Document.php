@@ -16,6 +16,9 @@ class Document extends Model
      CONST INVOICES  = 'invoices';
      CONST PROJECT   = 'project';
 
+     CONST EMPLOYEES  = 'employees';
+     // CONST EMPLOYEE   = 'employee';
+
      protected $fillable = [
      'name' , 'slug' ,'account_number',
      'file','property_id','tenant_id',

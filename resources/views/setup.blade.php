@@ -32,9 +32,11 @@
                         <button type="button" class="btn btn-danger mt-0"  onclick="return window.location.href='{{ route("employee-status.index") }}'">Employee Status
                         </button> 
 
-                        <!--  
-                        <button type="button" class="btn btn-danger mt-0"  onclick="return window.location.href='{{ route("trades.index") }}'">Trades
+                         <button type="button" class="btn btn-danger mt-0"  onclick="return window.location.href='{{ route("employees.index") }}'">Employees
                         </button>
+
+                        <!--  
+                       
 
                         <button type="button" class="btn btn-danger mt-0"  onclick="return window.location.href='{{ route("subcontractors.index") }}'">Subcontractors
                         </button>

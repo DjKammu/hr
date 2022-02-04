@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\DocumentType;
 use App\Models\Document;
-use App\Models\ProjectType;
-use App\Models\Project;
+use App\Models\EmployeeStatus;
+use App\Models\Employee;
 use App\Models\Subcontractor;
 use App\Models\Proposal;
 use App\Models\Category;
@@ -14,7 +14,7 @@ use App\Models\Vendor;
 use Gate;
 
 
-class ProjectController extends Controller
+class EmployeeController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -37,33 +37,40 @@ class ProjectController extends Controller
                return abort('401');
          } 
 
-         $projects = Project::query();
+         $employees = Employee::query();
 
          if(request()->filled('s')){
             $searchTerm = request()->s;
-            $projects->where('name', 'LIKE', "%{$searchTerm}%") 
-            ->orWhere('address', 'LIKE', "%{$searchTerm}%")
+            $employees->where('first_name', 'LIKE', "%{$searchTerm}%") 
+            ->orWhere('social_society_number', 'LIKE', "%{$searchTerm}%")
+            ->orWhere('phone_number_1', 'LIKE', "%{$searchTerm}%")
+            ->orWhere('phone_number_2', 'LIKE', "%{$searchTerm}%")
+            ->orWhere('eamil_address', 'LIKE', "%{$searchTerm}%")
+            ->orWhere('middle_name', 'LIKE', "%{$searchTerm}%")
+            ->orWhere('last_name', 'LIKE', "%{$searchTerm}%")
+            ->orWhere('address_1', 'LIKE', "%{$searchTerm}%")
+            ->orWhere('address_2', 'LIKE', "%{$searchTerm}%")
+            ->orWhere('zip_code', 'LIKE', "%{$searchTerm}%")
+            ->orWhere('country', 'LIKE', "%{$searchTerm}%")
             ->orWhere('city', 'LIKE', "%{$searchTerm}%")
             ->orWhere('state', 'LIKE', "%{$searchTerm}%")
-            ->orWhere('country', 'LIKE', "%{$searchTerm}%")
-            ->orWhere('zip_code', 'LIKE', "%{$searchTerm}%")
             ->orWhere('notes', 'LIKE', "%{$searchTerm}%");
          }  
 
          if(request()->filled('p')){
             $p = request()->p;
-            $projects->whereHas('project_type', function($q) use ($p){
+            $employees->whereHas('employee_status', function($q) use ($p){
                 $q->where('slug', $p);
             });
          } 
          
-         $projectTypes = ProjectType::all(); 
+         $employeeStatus = EmployeeStatus::all(); 
 
-         $perPage = request()->filled('per_page') ? request()->per_page : (new Project())->perPage;
+         $perPage = request()->filled('per_page') ? request()->per_page : (new Employee())->perPage;
 
-         $projects = $projects->paginate($perPage);
+         $employees = $employees->paginate($perPage);
 
-         return view('projects.index',compact('projects','projectTypes'));
+         return view('employees.index',compact('employees','employeeStatus'));
     }
 
     /**
@@ -77,9 +84,9 @@ class ProjectController extends Controller
                return abort('401');
          } 
 
-        $projectTypes = ProjectType::all(); 
+        $employeeStatus = EmployeeStatus::all(); 
 
-        return view('projects.create',compact('projectTypes'));
+        return view('employees.create',compact('employeeStatus'));
     }
 
     /**
@@ -97,14 +104,15 @@ class ProjectController extends Controller
         $data = $request->except('_token');
 
         $request->validate([
-              'name' => 'required|unique:projects',
-              'project_type_id' => 'required|exists:project_types,id',
-              'start_date'    => 'nullable|date',
-              'end_date'      => 'nullable|date|after_or_equal:start_date',
-              'due_date'      => 'nullable|date|after_or_equal:end_date'
+              'first_name' => 'required',
+              'employee_status_id' => 'required|exists:employee_statuses,id',
+              'email_address' => 'required|unique:employees',
+              'dob'    => 'nullable|date',
+              'doh'    => 'nullable|date',
+              'td'     => 'nullable|date|after_or_equal:doh'
         ]);
 
-        $slug = \Str::slug($request->name);
+        $slug = \Str::slug($request->first_name);
 
         $data['photo'] = '';    
 
@@ -112,17 +120,17 @@ class ProjectController extends Controller
                $photo = $request->file('photo');
                $photoName = $slug.'-'.time() . '.' . $photo->getClientOriginalExtension();
               
-               $data['photo']  = $request->file('photo')->storeAs(Document::PROJECTS, $photoName, 'public');
+               $data['photo']  = $request->file('photo')->storeAs(Document::EMPLOYEES, $photoName, 'public');
         }
 
-        $property = Project::create($data);
+        $property = Employee::create($data);
 
         $project_type = $property->project_type;
 
-        $path = public_path().'/'.Document::PROJECT.'/' . $project_type->slug.'/'.$slug;
+        $path = public_path().'/'.Document::EMPLOYEE.'/' . $project_type->slug.'/'.$slug;
         \File::makeDirectory($path, $mode = 0777, true, true);
 
-        return redirect('projects')->with('message', 'Project Created Successfully!');
+        return redirect('projects')->with('message', 'Employee Created Successfully!');
     }
 
     /**

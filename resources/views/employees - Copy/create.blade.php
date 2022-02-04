@@ -1,6 +1,6 @@
 @extends('layouts.admin-app')
 
-@section('title', 'Project')
+@section('title', 'Employees')
 
 @section('content')
 
@@ -29,7 +29,7 @@
             <div class="card-body">
               <div class="row mb-2">
                     <div class="col-6">
-                        <h4 class="mt-0 text-left">Add Project</h4>
+                        <h4 class="mt-0 text-left">Add Employee</h4>
                     </div>
                 </div>
 
@@ -37,26 +37,40 @@
                         <div class="col-md-12">
                             <div class="card-body">
                                 <form   method="post" 
-                              action="{{ route('projects.store') }}" enctype="multipart/form-data">
+                              action="{{ route('employees.store') }}" enctype="multipart/form-data">
                                   @csrf
 
                                     <!-- Current Password -->
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6">
                                             <div class="form-group">
-                                                <label class="text-dark" for="password">Name 
+                                                <label class="text-dark" for="password">First Name 
                                                 </label>
-                                                <input  name="name" value="{{ old('name')}}" type="text" class="form-control" placeholder="Name" required="">
+                                                <input  name="first_name" value="{{ old('first_name')}}" type="text" class="form-control" placeholder="First  Name" required="">
+                                            </div>
+                                        </div> 
+                                        <div class="col-lg-6 col-md-6">
+                                            <div class="form-group">
+                                                <label class="text-dark" for="password">Middle Name 
+                                                </label>
+                                                <input  name="middle_name" value="{{ old('middle_name')}}" type="text" class="form-control" placeholder="Middle Name" >
+                                            </div>
+                                        </div> 
+                                        <div class="col-lg-6 col-md-6">
+                                            <div class="form-group">
+                                                <label class="text-dark" for="password">Last Name 
+                                                </label>
+                                                <input  name="last_name" value="{{ old('last_name')}}" type="text" class="form-control" placeholder="Name" >
                                             </div>
                                         </div>
                                     
                                         <div class="col-lg-6 col-md-6">
                                             <div class="form-group">
-                                                <label class="text-dark" for="password">Project Type
+                                                <label class="text-dark" for="password">Employee Status
                                                 </label>
-                                                <select class="form-control" name="project_type_id"> 
-                                                  <option> Select Project Type</option>
-                                                  @foreach($projectTypes as $type)
+                                                <select class="form-control" name="employee_status_id"> 
+                                                  <option> Select Employee Status</option>
+                                                  @foreach($employeeStatus as $type)
                                                    <option value="{{ $type->id }}" >{{ $type->name}}
                                                    </option>
                                                   @endforeach
@@ -66,10 +80,19 @@
                                     
                                        <div class="col-lg-6 col-md-6">
                                             <div class="form-group">
-                                                <label class="text-dark" for="password">Address
+                                                <label class="text-dark" for="password">Address 1
                                                 </label>
-                                                <textarea  name="address"  type="text" class="form-control" placeholder="Property Address" >
-                                                 {{ old('address')}}</textarea>
+                                                <textarea  name="address_1"  type="text" class="form-control" placeholder="Address 1" >
+                                                 {{ old('address_1')}}</textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6">
+                                            <div class="form-group">
+                                                <label class="text-dark" for="password">Address 2
+                                                </label>
+                                                <textarea  name="address_2"  type="text" class="form-control" placeholder="Address 1" >
+                                                 {{ old('address_2')}}</textarea>
                                             </div>
                                         </div>
                                    
@@ -105,37 +128,61 @@
                                             </div>
                                         </div>
 
+                                         <div class="col-lg-6 col-md-6">
+                                            <div class="form-group">
+                                                <label class="text-dark" for="password">Phone Number 1 
+                                                </label>
+                                                <input  name="phone_number_1"  value="{{ old('phone_number_1')}}" type="text" class="form-control" placeholder="Phone Number 1" >
+                                            </div>
+                                        </div>
+                                        
                                         <div class="col-lg-6 col-md-6">
                                             <div class="form-group">
-                                                <label class="text-dark" for="password">Project Start Date 
+                                                <label class="text-dark" for="password">Phone Number 2
                                                 </label>
-                                                <input  name="start_date" value="{{ old('start_date')}}" type="text" class="form-control date" placeholder="Start Date">
+                                                <input  name="phone_number_2"  value="{{ old('phone_number_2')}}" type="text" class="form-control" placeholder="Phone Number 2" >
+                                            </div>
+                                        </div> 
+
+                                        <div class="col-lg-6 col-md-6">
+                                            <div class="form-group">
+                                                <label class="text-dark" for="password">Email Address 
+                                                </label>
+                                                <input  name="email_address"  value="{{ old('email_address')}}" type="text" class="form-control" placeholder="Phone Number 1" >
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-lg-6 col-md-6">
+                                            <div class="form-group">
+                                                <label class="text-dark" for="password">Social Society Number
+                                                </label>
+                                                <input  name="social_society_number"  value="{{ old('social_society_number')}}" type="text" class="form-control" placeholder="Phone Number 2" >
                                             </div>
                                         </div>
 
                                         <div class="col-lg-6 col-md-6">
                                             <div class="form-group">
-                                                <label class="text-dark" for="password">Project End Date 
+                                                <label class="text-dark" for="password">Date of Birth 
                                                 </label>
-                                                <input  name="end_date" value="{{ old('end_date')}}" type="text" class="form-control date" placeholder="End Date">
+                                                <input  name="dob" value="{{ old('dob')}}" type="text" class="form-control date" placeholder="Date of Birth">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6">
+                                            <div class="form-group">
+                                                <label class="text-dark" for="password">Date of Hire
+                                                </label>
+                                                <input  name="doh" value="{{ old('doh')}}" type="text" class="form-control date" placeholder="Date of Hire">
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6">
                                             <div class="form-group">
-                                                <label class="text-dark" for="password">Project Due Date 
+                                                <label class="text-dark" for="password">Termination Date 
                                                 </label>
-                                                <input  name="due_date" value="{{ old('due_date')}}" type="text" class="form-control date" placeholder="Due Date">
+                                                <input  name="td" value="{{ old('td')}}" type="text" class="form-control date" placeholder="Termination Date">
                                             </div>
                                         </div>
                                   
-                                        <div class="col-lg-6 col-md-6">
-                                            <div class="form-group">
-                                                <label class="text-dark" for="password">Plans URL
-                                                </label>
-                                                <input  name="plans_url"  value="{{ old('plans_url')}}" type="text" class="form-control" placeholder="Plans URL" >
-                                            </div>
-                                        </div>
-                                        
                                         <div class="col-lg-6 col-md-6">
                                             <div class="form-group">
                                                 <label class="text-dark" for="password">Photo 
@@ -159,7 +206,7 @@
 
                                     <!-- Submit Button -->
                                     <div class="col-12 text-center">
-                                        <button id="change-password-button" type="submit" class="btn btn-danger">Create Project
+                                        <button id="change-password-button" type="submit" class="btn btn-danger">Create Employee
                                         </button>
                                     </div>
 
