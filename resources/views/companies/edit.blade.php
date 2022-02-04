@@ -1,6 +1,6 @@
 @extends('layouts.admin-app')
 
-@section('title', 'Edit Project')
+@section('title', 'Edit Employee')
 
 @section('content')
 
@@ -45,53 +45,14 @@
                                                    aria-expanded="false">Documents</a>
                                             </li>
 
-                                            <li class="nav-item">
-                                                <a class="nav-link text-dark"  data-toggle="tab" href="#trades" role="tab"
-                                                   aria-expanded="false">Trades</a>
-                                            </li> 
-                                             @if($trade)
-                                              <li class="nav-item">
-                                                  <a class="nav-link text-dark"  data-toggle="tab" href="#proposals" role="tab"
-                                                     aria-expanded="false">Proposals</a>
-                                              </li>
-                                              @endif
-
-                                              @if($allProposals->count() > 0)
-                                              <li class="nav-item">
-                                                  <a class="nav-link text-dark"  data-toggle="tab" href="#bids" role="tab"
-                                                     aria-expanded="false">Bids Tabulation</a>
-                                              </li>
-                                              @endif 
-
-                                              @if($awarded)
-                                              <li class="nav-item">
-                                                  <a class="nav-link text-dark"  data-toggle="tab" href="#payments" role="tab"
-                                                     aria-expanded="false">Payments</a>
-                                              </li>
-                                              <li class="nav-item">
-                                                  <a class="nav-link text-dark"  data-toggle="tab" href="#budget" role="tab"
-                                                     aria-expanded="false">Budget</a>
-                                              </li>
-                                              @endif
                                         </ul>
                                     </div>
                                </div>
 
                                 <div id="my-tab-content" class="tab-content">
 
-                                    @include('projects.includes.details')
-                                    @include('projects.includes.documents')
-                                    @include('projects.includes.trades')
-                                    @if($trade)
-                                    @include('projects.includes.proposals')
-                                    @endif
-                                    @if($allProposals->count() > 0)
-                                    @include('projects.includes.bids')
-                                    @endif 
-                                    @if($awarded)
-                                    @include('projects.includes.payments')
-                                    @include('projects.includes.budget')
-                                    @endif
+                                    @include('companies.includes.details')
+                                    
                               </div>
 
                             </div>

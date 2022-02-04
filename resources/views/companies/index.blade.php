@@ -1,6 +1,6 @@
 @extends('layouts.admin-app')
 
-@section('title', 'Employees')
+@section('title', 'Companies')
 
 @section('content')
       <!-- Start Main View -->
@@ -26,10 +26,10 @@
             <div class="card-body">
                 <div class="row mb-2">
                     <div class="col-6">
-                        <h4 class="mt-0 text-left">Employees List</h4>
+                        <h4 class="mt-0 text-left">Companies List</h4>
                     </div>
                     <div class="col-6 text-right">
-                        <button type="button" class="btn btn-danger mt-0"  onclick="return window.location.href='employees/create'">Add Employee
+                        <button type="button" class="btn btn-danger mt-0"  onclick="return window.location.href='companies/create'">Add Company
                         </button>
                     </div>
                 </div>
@@ -37,8 +37,8 @@
                 <div class="row mb-2">
                     <div class="col-6">
                        <select style="height: 26px;" onchange="return window.location.href = '?p='+this.value"> 
-                      <option>Select Employee Status</option>
-                      @foreach($employeeStatus as $type)
+                      <option>Select Company Types</option>
+                      @foreach($companyTypes as $type)
                          <option value="{{ $type->slug }}" {{ (@request()->p == $type->slug) ? 'selected' : ''}}> {{ $type->name }}</option>
                       @endforeach
                       </select>
@@ -66,14 +66,14 @@
                             </tr>
                          </thead>
                          <tbody class="row">
-                          @foreach($employees as $employee)
+                          @foreach($companies as $company)
                             <tr class="text-center col-lg-4 col-sm-6 odd" style="display: flex; flex-wrap: wrap;" role="row">
                                <td>
-                                  <a style="text-decoration: none; position: relative;" href="employees/{{ $employee->id }}">
+                                  <a style="text-decoration: none; position: relative;" href="companies/{{ $company->id }}">
                                     <span class="cross"> 
                                      <form 
                                         method="post" 
-                                        action="{{route('employees.destroy',$employee->id)}}"> 
+                                        action="{{route('companies.destroy',$company->id)}}"> 
                                          @csrf
                                         {{ method_field('DELETE') }}
 
@@ -86,8 +86,8 @@
                                      <div class="card card-user card-table-item" style="width: 100%; height: 100%;">
                                         <div class="card-body pb-0">
                                            <div class="author mt-1">
-                                              <img class="avatar border-gray" src="{{ ($employee->photo) ? url(\Storage::url($employee->photo)) : asset('img/image_placeholder.png') }}">                        
-                                              <h5 class="title mb-0">{{ $employee->name }}</h5>
+                                              <img class="avatar border-gray" src="{{ ($company->photo) ? url(\Storage::url($company->photo)) : asset('img/image_placeholder.png') }}">                        
+                                              <h5 class="title mb-0">{{ $company->name }}</h5>
                                            </div>
                                         </div>
                                      </div>
@@ -100,7 +100,7 @@
                       </table>
                 </div>
 
-                {!! $employees->render() !!}
+                {!! $companies->render() !!}
             </div>
         </div>
     </div>

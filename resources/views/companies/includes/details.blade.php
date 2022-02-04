@@ -4,12 +4,12 @@ aria-expanded="true">
 
 <div class="row mb-2">
     <div class="col-6">
-        <h4 class="mt-0 text-left"> {{ @$project->name }} - Project Detail</h4>
+        <h4 class="mt-0 text-left"> {{ @$company->name }} - Company Detail</h4>
     </div>
 </div>
 
  <form   method="post" 
-          action="{{ route('projects.update',$project->id) }}" enctype="multipart/form-data">
+          action="{{ route('companies.update',$company->id) }}" enctype="multipart/form-data">
           <input type="hidden" name="_method" value="PUT">
               @csrf
                 
@@ -20,20 +20,20 @@ aria-expanded="true">
                                                 <label class="text-dark" for="password">Name 
                                                 </label>
 
-                                                <input  name="name" value="{{ $project->name }}" type="text" class="form-control" placeholder="Name" required="">
+                                                <input  name="name" value="{{ $company->name }}" type="text" class="form-control" placeholder="Name" required="">
                                             </div>
                                         </div>
                                     
                                         <div class="col-lg-6 col-md-6">
                                             <div class="form-group">
-                                                <label class="text-dark" for="password">Project Type
+                                                <label class="text-dark" for="password">Company Type
                                                 </label>
 
-                                                <select class="form-control" name="project_type_id"> 
-                                                  <option> Select Project Type</option>
-                                                  @foreach($projectTypes as $type)
+                                                <select class="form-control" name="company_type_id"> 
+                                                  <option> Select Company Type</option>
+                                                  @foreach($companyTypes as $type)
                                                    <option value="{{ $type->id }}" {{ 
-                                                    ($project->project_type_id == $type->id) ? 'selected=""' : ''}}>{{ $type->name}}
+                                                    ($company->company_type_id == $type->id) ? 'selected=""' : ''}}>{{ $type->name}}
                                                    </option>
                                                   @endforeach
                                                 </select>
@@ -42,18 +42,28 @@ aria-expanded="true">
                                     
                                        <div class="col-lg-6 col-md-6">
                                             <div class="form-group">
-                                                <label class="text-dark" for="password">Address
+                                                <label class="text-dark" for="password">Address 1
                                                 </label>
                                                 <textarea  name="address"  type="text" class="form-control" placeholder="Property Address" >
-                                                {{ $project->address }}</textarea>
+                                                {{ $company->address_1 }}</textarea>
                                             </div>
                                         </div>
+
+                                         <div class="col-lg-6 col-md-6">
+                                            <div class="form-group">
+                                                <label class="text-dark" for="password">Address 2
+                                                </label>
+                                                <textarea  name="address_2"  type="text" class="form-control" placeholder="Address 1" >
+                                                 {{ $company->address_2 }}</textarea>
+                                            </div>
+                                        </div>
+                                   
                                    
                                        <div class="col-lg-6 col-md-6">
                                             <div class="form-group">
                                                 <label class="text-dark" for="password">City 
                                                 </label>
-                                                <input  name="city" value="{{ $project->city }}" type="text" class="form-control" placeholder="City">
+                                                <input  name="city" value="{{ $company->city }}" type="text" class="form-control" placeholder="City">
                                             </div>
                                         </div>
                                     
@@ -61,7 +71,7 @@ aria-expanded="true">
                                             <div class="form-group">
                                                 <label class="text-dark" for="password">State
                                                 </label>
-                                                <input  name="state"  value="{{ $project->state }}" type="text" class="form-control" placeholder="State" >
+                                                <input  name="state"  value="{{ $company->state }}" type="text" class="form-control" placeholder="State" >
                                             </div>
                                         </div>
                                     
@@ -69,7 +79,7 @@ aria-expanded="true">
                                             <div class="form-group">
                                                 <label class="text-dark" for="password">Country 
                                                 </label>
-                                                <input  name="country" value="{{ $project->country }}" type="text" class="form-control" placeholder="Country">
+                                                <input  name="country" value="{{ $company->country }}" type="text" class="form-control" placeholder="Country">
                                             </div>
                                         </div>
                                   
@@ -77,40 +87,11 @@ aria-expanded="true">
                                             <div class="form-group">
                                                 <label class="text-dark" for="password">Zip Code 
                                                 </label>
-                                                <input  name="zip_code"  value="{{ $project->zip_code }}" type="text" class="form-control" placeholder="Zip Code" >
+                                                <input  name="zip_code"  value="{{ $company->zip_code }}" type="text" class="form-control" placeholder="Zip Code" >
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-6 col-md-6">
-                                            <div class="form-group">
-                                                <label class="text-dark" for="password">Project Start Date 
-                                                </label>
-                                                <input  name="start_date" value="{{ $project->start_date }}" type="text" class="form-control date" placeholder="Start Date">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-6 col-md-6">
-                                            <div class="form-group">
-                                                <label class="text-dark" for="password">Project End Date 
-                                                </label>
-                                                <input  name="end_date" value="{{ $project->end_date }}" type="text" class="form-control date" placeholder="End Date">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6">
-                                            <div class="form-group">
-                                                <label class="text-dark" for="password">Project Due Date 
-                                                </label>
-                                                <input  name="due_date" value="{{ $project->due_date }}" type="text" class="form-control date" placeholder="Due Date">
-                                            </div>
-                                        </div>
-                                  
-                                        <div class="col-lg-6 col-md-6">
-                                            <div class="form-group">
-                                                <label class="text-dark" for="password">Plans URL
-                                                </label>
-                                                <input  name="plans_url"  value="{{ $project->plans_url }}" type="text" class="form-control" placeholder="Plans URL" >
-                                            </div>
-                                        </div>
+                                    
                                         
                                         <div class="col-lg-6 col-md-6">
                                             <div class="form-group">
@@ -125,14 +106,14 @@ aria-expanded="true">
                                                 <label class="text-dark" for="password">Notes 
                                                 </label>
                                                 <textarea  name="notes"  type="text" class="form-control" placeholder="Notes" >
-                                                 {{ $project->notes }}</textarea>
+                                                 {{ $company->notes }}</textarea>
                                             </div>
                                         </div>
 
                                          <div class="col-lg-6 col-md-6">
                                             <div class="form-group">
-                                                @if(!empty($project->photo))
-                                                <img style="width: 200px;" src="{{ url(\Storage::url($project->photo)) }}" />
+                                                @if(!empty($company->photo))
+                                                <img style="width: 200px;" src="{{ url(\Storage::url($company->photo)) }}" />
                                                 @endif
 
                                             </div>
@@ -143,7 +124,7 @@ aria-expanded="true">
 
                 <!-- Submit Button -->
                 <div class="col-12 text-center">
-                    <button id="change-password-button" type="submit" class="btn btn-danger">Update Project
+                    <button id="change-password-button" type="submit" class="btn btn-danger">Update Company
                     </button>
                 </div>
 

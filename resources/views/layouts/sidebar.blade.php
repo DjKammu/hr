@@ -68,6 +68,14 @@
              
             @can('view')
              
+                  <!-- Property Types -->
+             <li class="{{ Request::is('companies*') ? 'active' : '' }}">
+                <a href="{{ route('companies.index') }}">
+                    <i class="fa fa-building-o"></i>
+                    <p>Companies</p>
+                </a>
+            </li>
+
 
              
             @endcan
@@ -75,7 +83,8 @@
 
              @can('view')
 
-            <!-- Property Types -->
+     
+  <!-- Property Types -->
             <!--  <li class="{{ Request::is('documents*') ? 'active' : '' }}">
                 <a href="{{ route('documents.search') }}">
                     <i class="nc-icon nc-bank"></i>

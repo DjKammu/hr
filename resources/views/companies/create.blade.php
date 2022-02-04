@@ -1,6 +1,6 @@
 @extends('layouts.admin-app')
 
-@section('title', 'Employees')
+@section('title', 'Companies')
 
 @section('content')
 
@@ -29,7 +29,7 @@
             <div class="card-body">
               <div class="row mb-2">
                     <div class="col-6">
-                        <h4 class="mt-0 text-left">Add Employee</h4>
+                        <h4 class="mt-0 text-left">Add Company</h4>
                     </div>
                 </div>
 
@@ -37,40 +37,25 @@
                         <div class="col-md-12">
                             <div class="card-body">
                                 <form   method="post" 
-                              action="{{ route('employees.store') }}" enctype="multipart/form-data">
+                              action="{{ route('companies.store') }}" enctype="multipart/form-data">
                                   @csrf
 
                                     <!-- Current Password -->
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6">
                                             <div class="form-group">
-                                                <label class="text-dark" for="password">First Name 
+                                                <label class="text-dark" for="password">Name 
                                                 </label>
-                                                <input  name="first_name" value="{{ old('first_name')}}" type="text" class="form-control" placeholder="First  Name" required="">
+                                                <input  name="name" value="{{ old('name')}}" type="text" class="form-control" placeholder="Name" required="">
                                             </div>
                                         </div> 
                                         <div class="col-lg-6 col-md-6">
                                             <div class="form-group">
-                                                <label class="text-dark" for="password">Middle Name 
+                                                <label class="text-dark" for="password">Company Types
                                                 </label>
-                                                <input  name="middle_name" value="{{ old('middle_name')}}" type="text" class="form-control" placeholder="Middle Name" >
-                                            </div>
-                                        </div> 
-                                        <div class="col-lg-6 col-md-6">
-                                            <div class="form-group">
-                                                <label class="text-dark" for="password">Last Name 
-                                                </label>
-                                                <input  name="last_name" value="{{ old('last_name')}}" type="text" class="form-control" placeholder="Name" >
-                                            </div>
-                                        </div>
-                                    
-                                        <div class="col-lg-6 col-md-6">
-                                            <div class="form-group">
-                                                <label class="text-dark" for="password">Employee Status
-                                                </label>
-                                                <select class="form-control" name="employee_status_id"> 
-                                                  <option> Select Employee Status</option>
-                                                  @foreach($employeeStatus as $type)
+                                                <select class="form-control" name="company_type_id"> 
+                                                  <option> Select Company Types</option>
+                                                  @foreach($companyTypes as $type)
                                                    <option value="{{ $type->id }}" >{{ $type->name}}
                                                    </option>
                                                   @endforeach
@@ -127,61 +112,6 @@
                                                 <input  name="zip_code"  value="{{ old('zip_code')}}" type="text" class="form-control" placeholder="Zip Code" >
                                             </div>
                                         </div>
-
-                                         <div class="col-lg-6 col-md-6">
-                                            <div class="form-group">
-                                                <label class="text-dark" for="password">Phone Number 1 
-                                                </label>
-                                                <input  name="phone_number_1"  value="{{ old('phone_number_1')}}" type="text" class="form-control" placeholder="Phone Number 1" >
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="col-lg-6 col-md-6">
-                                            <div class="form-group">
-                                                <label class="text-dark" for="password">Phone Number 2
-                                                </label>
-                                                <input  name="phone_number_2"  value="{{ old('phone_number_2')}}" type="text" class="form-control" placeholder="Phone Number 2" >
-                                            </div>
-                                        </div> 
-
-                                        <div class="col-lg-6 col-md-6">
-                                            <div class="form-group">
-                                                <label class="text-dark" for="password">Email Address 
-                                                </label>
-                                                <input  name="email_address"  value="{{ old('email_address')}}" type="text" class="form-control" placeholder="Phone Number 1" >
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="col-lg-6 col-md-6">
-                                            <div class="form-group">
-                                                <label class="text-dark" for="password">Social Society Number
-                                                </label>
-                                                <input  name="social_society_number"  value="{{ old('social_society_number')}}" type="text" class="form-control" placeholder="Phone Number 2" >
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-6 col-md-6">
-                                            <div class="form-group">
-                                                <label class="text-dark" for="password">Date of Birth 
-                                                </label>
-                                                <input  name="dob" value="{{ old('dob')}}" type="text" class="form-control date" placeholder="Date of Birth">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-6 col-md-6">
-                                            <div class="form-group">
-                                                <label class="text-dark" for="password">Date of Hire
-                                                </label>
-                                                <input  name="doh" value="{{ old('doh')}}" type="text" class="form-control date" placeholder="Date of Hire">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6">
-                                            <div class="form-group">
-                                                <label class="text-dark" for="password">Termination Date 
-                                                </label>
-                                                <input  name="td" value="{{ old('td')}}" type="text" class="form-control date" placeholder="Termination Date">
-                                            </div>
-                                        </div>
                                   
                                         <div class="col-lg-6 col-md-6">
                                             <div class="form-group">
@@ -206,7 +136,7 @@
 
                                     <!-- Submit Button -->
                                     <div class="col-12 text-center">
-                                        <button id="change-password-button" type="submit" class="btn btn-danger">Create Employee
+                                        <button id="change-password-button" type="submit" class="btn btn-danger">Create Company
                                         </button>
                                     </div>
 

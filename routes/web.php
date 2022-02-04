@@ -58,11 +58,14 @@ Route::get('/setup', [App\Http\Controllers\HomeController::class, 'setup'])->nam
 Route::resource('users', App\Http\Controllers\UserController::class)->middleware('can:add_users');
 Route::resource('roles', App\Http\Controllers\RoleController::class)->middleware('can:add_users');
 
-Route::resource('company-types', App\Http\Controllers\CompanyController::class);
 
 Route::resource('departments', App\Http\Controllers\DepartmentController::class);
-Route::resource('employee-status', App\Http\Controllers\EmployeeStatusController::class);
 Route::resource('employees', App\Http\Controllers\EmployeeController::class);
+Route::resource('companies', App\Http\Controllers\CompanyController::class);
+
+
+Route::resource('employee-status', App\Http\Controllers\EmployeeStatusController::class);
+Route::resource('company-types', App\Http\Controllers\CompanyTypeController::class);
 Route::resource('document-types', App\Http\Controllers\DocumentTypeController::class);
 Route::resource('leave-types', App\Http\Controllers\LeaveTypeController::class);
 
