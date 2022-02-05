@@ -2,10 +2,10 @@
                            
     <div class="row mb-2">
         <div class="col-6">
-            <h4 class="mt-0 text-left">{{ @$project->name }} - Documents List </h4>
+            <h4 class="mt-0 text-left">{{ @$company->name }} - Documents List </h4>
         </div>
         <div class="col-6 text-right">
-            <button type="button" class="btn btn-danger mt-0"  onclick="return window.location.href='{{ route("projects.documents",['id' => request()->project ])  }}'">Add Document
+            <button type="button" class="btn btn-danger mt-0"  onclick="return window.location.href='{{ route("companies.documents",['id' => request()->company ])  }}'">Add Document
             </button>
         </div>
     </div>
@@ -32,25 +32,13 @@
                <option value="{{ $type->slug }}" {{ (@request()->document_type == $type->slug) ? 'selected' : ''}}> {{ $type->name }}</option>
             @endforeach
             </select>
-            <select style="height: 26px;" name="vendor"> 
-              <option value="">Select Vendor</option>
-              @foreach($vendors as $vendor)
-                 <option value="{{ $vendor->id }}" {{ (@request()->vendor == $vendor->id) ? 'selected' : ''}}> {{ $vendor->name }}</option>
+            <select style="height: 26px;" name="employee"> 
+              <option value="">Select Employee</option>
+              @foreach($employees as $employee)
+                 <option value="{{ $employee->id }}" {{ (@request()->employee == $employee->id) ? 'selected' : ''}}> {{ $employee->name }}</option>
               @endforeach
             </select> 
-            <select style="height: 26px;" name="subcontractor"> 
-              <option value="">Select Subcontractor</option>
-              @foreach($subcontractors as $subcontractor)
-                 <option value="{{ $subcontractor->id }}" {{ (@request()->subcontractor == $subcontractor->id) ? 'selected' : ''}}> {{ $subcontractor->name }}</option>
-              @endforeach
-            </select>
 
-            <select style="height: 26px;" name="proposal_trade"> 
-              <option value="">Select Trade</option>
-              @foreach($trades as $trade)
-                 <option value="{{ $trade->id }}" {{ (@request()->proposal_trade == $trade->id) ? 'selected' : ''}}> {{ $trade->name }}</option>
-              @endforeach
-            </select>
             <input type="text" name="s" value="{{ @request()->s }}" id="inputSearch" >
             <input type="hidden"  name="per_page" value="{{ @request()->per_page }}">
             <button id="search">Search</button>
@@ -109,10 +97,10 @@
                                   <span class="doc_type_m">
                                     {{ @$document->property->property_name }} 
                                   </span></br>
-                                 <a  href="{{ ($document->file) ? $document->file : route('projects.documents.show', ['id' => request()->project, 'document' => $document->id ]) }}" {{ ($document->file) ? 'target="_blank"' : '' }} >
+                                 <a  href="{{ ($document->file) ? $document->file : route('companies.documents.show', ['id' => request()->company, 'document' => $document->id ]) }}" {{ ($document->file) ? 'target="_blank"' : '' }} >
                                   <img class="avatar border-gray" src="{{ asset('img/'.$extension.'.png') }}">  
                                    </a>
-                                  <a href="{{ request()->project }}/documents/{{ $document->id }}">                     
+                                  <a href="{{ request()->company }}/documents/{{ $document->id }}">                     
                                   <h6 class="title mb-0">{{ @$document->name }}</h6>
                                    </a>
                                    <span class="doc-type"> 

@@ -69,23 +69,17 @@ Route::resource('company-types', App\Http\Controllers\CompanyTypeController::cla
 Route::resource('document-types', App\Http\Controllers\DocumentTypeController::class);
 Route::resource('leave-types', App\Http\Controllers\LeaveTypeController::class);
 
-
-
-
-
+Route::resource('documents', App\Http\Controllers\DocumentController::class);
+Route::get('companies/{id}/documents',[App\Http\Controllers\DocumentController::class,'create'])
+->name('companies.documents');
+Route::get('companies/{id}/documents/{document}',[App\Http\Controllers\DocumentController::class,'show'])->name('companies.documents.show');
+Route::post('companies/{id}/documents',[App\Http\Controllers\DocumentController::class,'store'])
+->name('companies.documents');
+Route::delete('documents/{id}/file', [App\Http\Controllers\DocumentController::class,'destroyFile'])->name('documents.file.destroy');
 Route::get('documents/search', [App\Http\Controllers\DocumentController::class,'search'])->name('documents.search');
 
-Route::resource('documents', App\Http\Controllers\DocumentController::class);
 
-Route::get('projects/{id}/documents',[App\Http\Controllers\DocumentController::class,'create'])
-->name('projects.documents');
 
-Route::get('projects/{id}/documents/{document}',[App\Http\Controllers\DocumentController::class,'show'])->name('projects.documents.show');
-
-Route::post('projects/{id}/documents',[App\Http\Controllers\DocumentController::class,'store'])
-->name('projects.documents');
-
-Route::delete('documents/{id}/file', [App\Http\Controllers\DocumentController::class,'destroyFile'])->name('documents.file.destroy');
 
 
 Route::get('files/{directory?}',[App\Http\Controllers\FileController::class,'index'])->name('files.index');

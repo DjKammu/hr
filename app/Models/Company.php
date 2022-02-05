@@ -21,5 +21,8 @@ class Company extends Model
     public function company_type(){
     	return $this->belongsTo(CompanyType::class);
     }
-
+    
+    public function documents(){
+      return $this->hasMany(Document::class);
+    }
 }

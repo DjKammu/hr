@@ -74,40 +74,21 @@
                                         <div class="col-lg-5 col-md-6 mx-auto">
                                             <div class="form-group">
                                                 <label class="text-dark" for="password">
-                                                  Vendor
+                                                  Employee
                                                 </label>
                                                 <select class="form-control" id="year" 
-                                                name="vendor_id"> 
-                                                  <option value=""> Select Vendor</option>
-                                                    @foreach($vendors as $vendor)
-                                                     <option value="{{ $vendor->id }}" {{ 
-                                                      (@$document->vendor_id == $vendor->id) ? 'selected=""' : ''}}> {{ $vendor->name }}</option>
+                                                name="employee_id"> 
+                                                  <option value=""> Select Employee</option>
+                                                    @foreach($employees as $employee)
+                                                     <option value="{{ $employee->id }}" {{ 
+                                                      (@$document->employee_id == $employee->id) ? 'selected=""' : ''}}> {{ $employee->first_name }}</option>
                                                   @endforeach
 
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
-                                    
-                                    <div class="row">
-                                        <div class="col-lg-5 col-md-6 mx-auto">
-                                            <div class="form-group">
-                                                <label class="text-dark" for="password">
-                                                  Subcontractor
-                                                </label>
-                                                <select class="form-control" id="year" 
-                                                name="subcontractor_id"> 
-                                                  <option value=""> Select Subcontractor</option>
-                                                    @foreach($subcontractors as $subcontractor)
-                                                     <option value="{{ $subcontractor->id }}" {{ 
-                                                      (@$document->subcontractor_id == $subcontractor->id) ? 'selected=""' : ''}}> {{ $subcontractor->name }}</option>
-                                                  @endforeach
 
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
                                     <div class="row">
                                         <div class="col-lg-5 col-md-6 mx-auto">
                                             <div class="form-group">

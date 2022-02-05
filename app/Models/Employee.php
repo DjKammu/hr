@@ -28,17 +28,5 @@ class Employee extends Model
     	return $this->hasMany(Document::class);
     }
 
-    public function trades(){
-        return $this->belongsToMany(Trade::class)->withTimestamps();
-    }
-    
-    public function proposals(){
-        return $this->hasMany(Proposal::class);
-    }
-
-    public function payments(){
-        return $this->hasMany(Payment::class);
-    }
-
     
 }

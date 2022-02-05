@@ -52,6 +52,7 @@
                                 <div id="my-tab-content" class="tab-content">
 
                                     @include('companies.includes.details')
+                                    @include('companies.includes.documents')
                                     
                               </div>
 

@@ -7,7 +7,7 @@ use App\Models\DocumentType;
 use App\Models\Document;
 use App\Models\CompanyType;
 use App\Models\Company;
-use App\Models\Subcontractor;
+use App\Models\Employee;
 use App\Models\Proposal;
 use App\Models\Category;
 use App\Models\Vendor;
@@ -144,6 +144,11 @@ class CompanyController extends Controller
          $company = Company::find($id);
          $companyTypes = CompanyType::all();
 
+         $documentTypes = DocumentType::all();
+         $employees = Employee::all();
+         $documents = $company->documents();
+
+
         //   if(request()->filled('payment_subcontractor')){
         //         $subcontractor = request()->payment_subcontractor;
         //         $payments->where('subcontractor_id', $subcontractor);
@@ -231,44 +236,44 @@ class CompanyController extends Controller
         //  $allProposals = @$project->proposals()->get();
         //  $proposals = @$project->proposals()->trade($trade)->get();
               
-        //  $perPage = request()->filled('per_page') ? request()->per_page : (new Project())->perPage;
+         $perPage = request()->filled('per_page') ? request()->per_page : (new Company())->perPage;
 
-        //  $documents = $documents->with('document_type')
-        //             ->paginate($perPage);
+         $documents = $documents->with('document_type')
+                    ->paginate($perPage);
 
 
-        // $documents->filter(function($doc){
+        $documents->filter(function($doc){
 
-        //     $project = @$doc->project;
+            $company = @$doc->company;
 
-        //     $project_slug = \Str::slug($project->name);
+            $company_slug = \Str::slug($company->name);
 
-        //     $document_type = @$doc->document_type->slug;
+            $document_type = @$doc->document_type->slug;
 
-        //     $project_type_slug = @$project->project_type->slug;
+            $company_type_slug = @$company->company_type->slug;
 
-        //     $folderPath = Document::PROJECT."/";
+            $folderPath = Document::COMPANY."/";
 
-        //     $project_type_slug = ($project_type_slug) ? $project_type_slug : Document::ARCHIEVED;
+            $company_type_slug = ($company_type_slug) ? $company_type_slug : Document::ARCHIEVED;
 
-        //     $folderPath .= "$project_type_slug/$project_slug/$document_type/";
+            $folderPath .= "$company_type_slug/$company_slug/$document_type/";
             
-        //     if($doc->proposal_id){
-        //          $proposal = Proposal::find($doc->proposal_id);
-        //          $trade_slug = @\Str::slug($proposal->trade->name);
-        //          $folderPath = ($doc->document_type->name == DocumentType::INVOICE) ? Document::INVOICES."/" : Document::PROPOSALS."/";
-        //          $folderPath .= "$project_slug/$trade_slug/";
-        //     }
+            // if($doc->proposal_id){
+            //      $proposal = Proposal::find($doc->proposal_id);
+            //      $trade_slug = @\Str::slug($proposal->trade->name);
+            //      $folderPath = ($doc->document_type->name == DocumentType::INVOICE) ? Document::INVOICES."/" : Document::PROPOSALS."/";
+            //      $folderPath .= "$project_slug/$trade_slug/";
+            // }
 
-        //     $files = $doc->files();
+            $files = $doc->files();
 
-        //     $file =  ($files->count() == 1) ? $files->pluck('file')->first() : '';
+            $file =  ($files->count() == 1) ? $files->pluck('file')->first() : '';
 
-        //     $doc->file = ($file  ? asset($folderPath.$file) : '') ;
+            $doc->file = ($file  ? asset($folderPath.$file) : '') ;
 
-        //     return $doc->file;
+            return $doc->file;
            
-        //  });
+         });
        
 
         //   $proposals->filter(function($proposal){
@@ -336,7 +341,7 @@ class CompanyController extends Controller
          //                          ->pluck('subcontractor_count')->max(); 
 
                                  
-         return view('companies.edit',compact('company','companyTypes'));
+         return view('companies.edit',compact('company','companyTypes','documentTypes','employees','documents'));
     }
 
     /**

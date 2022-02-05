@@ -7,12 +7,10 @@ use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use App\Models\DocumentType;
 use App\Models\DocumentFile;
-use App\Models\ProjectType;
-use App\Models\Project;
-use App\Models\Subcontractor;
+use App\Models\CompanyType;
+use App\Models\Company;
+use App\Models\Employee;
 use App\Models\Document;
-use App\Models\Proposal;
-use App\Models\Vendor;
 use Gate;
 
 
@@ -79,12 +77,12 @@ class DocumentController extends Controller
 
          $id = request()->id;
         
-        $project = Project::find($id); 
+        $company = Company::find($id); 
         $documentsTypes = DocumentType::all(); 
-        $subcontractors = Subcontractor::all();
-        $vendors = Vendor::all();
+        $employees = Employee::all();
 
-        return view('projects.includes.documents-create',compact('project','documentsTypes','subcontractors','vendors'));
+        return view('companies.includes.documents-create',compact('company','documentsTypes',
+          'employees'));
     }
 
     /**
@@ -105,7 +103,7 @@ class DocumentController extends Controller
               'name' => [
                     'required',
                      Rule::unique('documents')->where(function ($query) use($id) {
-                        return $query->where('project_id', $id);
+                        return $query->where('company_id', $id);
                     }),
                 ],
               'document_type_id' => 'required|exists:document_types,id',
@@ -116,36 +114,35 @@ class DocumentController extends Controller
 
          $data['file'] = '';    
        
-         $project = Project::find($id);
+         $company = Company::find($id);
 
-         if(!$project){
+         if(!$company){
             return redirect()->back();
         }
         
         $document_type = DocumentType::find($request->document_type_id);
 
-        $project_slug = \Str::slug($project->name);
+        $company_slug = \Str::slug($company->name);
 
-        $project_type = @$project->project_type;
+        $company_type = @$company->company_type;
 
-        $project_type_slug = @$project_type->slug; 
+        $company_type_slug = @$company_type->slug; 
 
         $document_type_slug = $document_type->slug;
 
         $public_path = public_path().'/';
 
-        $folderPath = Document::PROJECT."/";
+        $folderPath = Document::COMPANY."/";
 
-        $project_type_slug = ($project_type_slug) ? $project_type_slug : Document::ARCHIEVED;
+        $company_type_slug = ($company_type_slug) ? $company_type_slug : Document::ARCHIEVED;
 
-        $folderPath .= $project_type_slug.'/'.$project_slug.'/'.$document_type_slug;
-
+        $folderPath .= $company_type_slug.'/'.$company_slug.'/'.$document_type_slug;
 
         \File::makeDirectory($public_path.$folderPath, $mode = 0777, true, true);
 
         $data['slug'] = $slug;
         
-        $document = $project->documents()->create($data);
+        $document = $company->documents()->create($data);
 
         if($request->hasFile('file')){
                $filesArr = [];
@@ -166,7 +163,7 @@ class DocumentController extends Controller
                 $document->files()->createMany($filesArr);
         }
 
-        return redirect(route('projects.show',['project' => $id]).'#documents')->with('message', 'Document Created Successfully!');
+        return redirect(route('companies.show',['company' => $id]).'#documents')->with('message', 'Document Created Successfully!');
     }
 
     /**
@@ -185,29 +182,27 @@ class DocumentController extends Controller
 
         $documentsTypes = DocumentType::all(); 
 
-        $project = @$document->project;
-        
-        $subcontractors = Subcontractor::all();
+        $company = @$document->company;
 
-        $vendors = Vendor::all();
+        $employees = Employee::all();
         
-        $project_slug = \Str::slug($project->name);
+        $company_slug = \Str::slug($company->name);
 
         $document_type = $document->document_type()->pluck('slug')->first();
 
-        $project_type_slug = @$project->project_type->slug;
+        $company_type_slug = @$company->company_type->slug;
 
-        $folderPath = Document::PROJECT."/";
+        $folderPath = Document::COMPANY."/";
 
-        $project_type_slug = ($project_type_slug) ? $project_type_slug : Document::ARCHIEVED;  
-        $folderPath .= "$project_type_slug/$project_slug/$document_type/";
+        $company_type_slug = ($company_type_slug) ? $company_type_slug : Document::ARCHIEVED;  
+        $folderPath .= "$company_type_slug/$company_slug/$document_type/";
 
-        if($document->proposal_id){
-               $proposal = Proposal::find($document->proposal_id);
-               $trade_slug = @\Str::slug($proposal->trade->name);
-               $folderPath = ($document->document_type->name == DocumentType::INVOICE) ? Document::INVOICES."/" : Document::PROPOSALS."/";
-               $folderPath .= "$project_slug/$trade_slug/";
-          }
+        // if($document->proposal_id){
+        //        $proposal = Proposal::find($document->proposal_id);
+        //        $trade_slug = @\Str::slug($proposal->trade->name);
+        //        $folderPath = ($document->document_type->name == DocumentType::INVOICE) ? Document::INVOICES."/" : Document::PROPOSALS."/";
+        //        $folderPath .= "$project_slug/$trade_slug/";
+        //   }
 
         $document->files->filter(function($file) use ($folderPath){
 
@@ -217,8 +212,8 @@ class DocumentController extends Controller
          
        });
 
-      return view('projects.includes.documents-edit',compact('documentsTypes','document',
-        'subcontractors','vendors'));
+      return view('companies.includes.documents-edit',compact('documentsTypes','document',
+        'employees'));
 
     }
 
@@ -263,15 +258,15 @@ class DocumentController extends Controller
             return redirect()->back();
         }
         
-        $project = @$document->project; 
+        $company = @$document->company; 
 
         $document_type = DocumentType::find($request->document_type_id);
 
-        $project_slug = \Str::slug($project->name);
+        $company_slug = \Str::slug($company->name);
 
-        $project_type = @$project->project_type;
+        $company_type = @$company->company_type;
 
-        $project_type_slug = @$project_type->slug; 
+        $company_type_slug = @$company_type->slug; 
 
         $document_type_slug = $document_type->slug;
 
@@ -279,19 +274,19 @@ class DocumentController extends Controller
 
         $public_path = public_path().'/';
 
-        $folderPath = Document::PROJECT."/";
+        $folderPath = Document::COMPANY."/";
 
-        $project_type_slug = ($project_type_slug) ? $project_type_slug : Document::ARCHIEVED;
+        $company_type_slug = ($company_type_slug) ? $company_type_slug : Document::ARCHIEVED;
 
-        $folderPath .= $project_type_slug.'/'.$project_slug.'/'.$document_type_slug;
+        $folderPath .= $company_type_slug.'/'.$company_slug.'/'.$document_type_slug;
         
-        if(($old_document_type->id != $request->document_type_id)){
+        // if(($old_document_type->id != $request->document_type_id)){
              
-               $oldFolderPath = Document::PROJECT.'/'.$project_type_slug.'/'.$project_slug.'/'.$old_document_type->slug;   
+        //        $oldFolderPath = Document::PROJECT.'/'.$project_type_slug.'/'.$project_slug.'/'.$old_document_type->slug;   
 
-               \File::copyDirectory($public_path.$oldFolderPath,$public_path.$folderPath); 
-               \File::deleteDirectory($public_path.$oldFolderPath);
-        }
+        //        \File::copyDirectory($public_path.$oldFolderPath,$public_path.$folderPath); 
+        //        \File::deleteDirectory($public_path.$oldFolderPath);
+        // }
 
         $document->update($data);
 
@@ -315,7 +310,7 @@ class DocumentController extends Controller
         }
 
 
-        return redirect("projects/$project->id#documents")->with('message', 'Document Updated Successfully!');
+        return redirect("companies/$company->id#documents")->with('message', 'Document Updated Successfully!');
     }
 
 
@@ -333,52 +328,36 @@ class DocumentController extends Controller
 
          $document = Document::find($id);
 
-         $project = @$document->project; 
+         $company = @$document->company; 
 
-         $project_slug = \Str::slug($project->name);
+         $company_slug = \Str::slug($company->name);
 
          $document_type = @$document->document_type->slug;
 
-         $project_type_slug = @ProjectType::find($project->project_type_id)->slug;
+         $company_type_slug = @CompanyType::find($company->company_type_id)->slug;
 
-         $folderPath = Document::PROJECT."/";
+         $folderPath = Document::COMPANY."/";
 
-         $project_type_slug = ($project_type_slug) ? $project_type_slug : Document::ARCHIEVED;
+         $company_type_slug = ($company_type_slug) ? $company_type_slug : Document::ARCHIEVED;
 
-         $folderPath .= "$project_type_slug/$project_slug/$document_type/";
+         $folderPath .= "$company_type_slug/$company_slug/$document_type/";
 
          $files = $document->files()->get();
 
-         $publicPath = public_path().'/';
+        $publicPath = public_path().'/';
 
-         if(@$document->proposal_id){
-           
-           $proposal = Proposal::find($document->proposal_id);
-
-           $proposal->update(['files' => '']);
-
-           $aPath = $publicPath.Document::PROPOSALS."/".Document::ARCHIEVED;
-
-           $trade_slug = @\Str::slug($proposal->trade->name);
-           $folderPath = Document::PROPOSALS."/";
-           $folderPath .= "$project_slug/$trade_slug/";
-
-          } else {
-
-          $aPath = $publicPath.Document::PROJECT."/".Document::ARCHIEVED.'/'. 
+        $aPath = $publicPath.Document::COMPANY."/".Document::ARCHIEVED.'/'. 
           Document::DOCUMENTS; 
 
-          }
 
-          $path = @public_path().'/'.$folderPath;
+        $path = @public_path().'/'.$folderPath;
 
-         \File::makeDirectory($aPath, $mode = 0777, true, true);
+        \File::makeDirectory($aPath, $mode = 0777, true, true);
          
-         foreach (@$files as $key => $file) {
-            $proprty_type = ProjectType::find($id);
+        foreach (@$files as $key => $file) {
             @\File::copy($path.$file->file, $aPath.'/'.$file->file);
             @unlink($path.$file->file);
-         }
+        }
 
          $document->delete();
 
@@ -396,29 +375,9 @@ class DocumentController extends Controller
           $file = DocumentFile::find($id);
          
           $publicPath = public_path().'/';
-
-          if(@$file->document->proposal_id){
-           
-           $proposal = Proposal::find($file->document->proposal_id);
-
-           $files = @array_filter(explode(',',$proposal->files));
-
-          if (($key = array_search($file->file, $files)) !== false) {
-              unset($files[$key]);
-          }
-
-           $files = implode(',', $files);          
-
-           $proposal->update(['files' => $files]);
-
-           $aPath = $publicPath.Document::PROPOSALS."/".Document::ARCHIEVED;
-
-          } else {
-
-          $aPath = $publicPath.Document::PROJECT."/".Document::ARCHIEVED.'/'. 
+          
+          $aPath = $publicPath.Document::COMPANY."/".Document::ARCHIEVED.'/'. 
           Document::DOCUMENTS; 
-
-          }
 
           @\File::makeDirectory($aPath, $mode = 0777, true, true);
         

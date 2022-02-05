@@ -29,7 +29,7 @@
             <div class="card-body">
               <div class="row mb-2">
                     <div class="col-6">
-                        <h4 class="mt-0 text-left">{{ @$project->name }} - Add Document</h4>
+                        <h4 class="mt-0 text-left">{{ @$company->name }} - Add Document</h4>
                     </div>
                 </div>
 
@@ -37,7 +37,7 @@
                         <div class="col-md-12">
                             <div class="card-body">
                                 <form   method="post" 
-                              action="{{ route('projects.documents',[ 'id' => request()->id]) }}"
+                              action="{{ route('companies.documents',[ 'id' => request()->id]) }}"
                                enctype="multipart/form-data">
                                   @csrf
 
@@ -73,38 +73,20 @@
                                         <div class="col-lg-5 col-md-6 mx-auto">
                                             <div class="form-group">
                                                 <label class="text-dark" for="password">
-                                                  Vendor
+                                                  Employee
                                                 </label>
                                                 <select class="form-control" id="year" 
-                                                name="vendor_id"> 
-                                                  <option value=""> Select Vendor</option>
-                                                    @foreach($vendors as $vendor)
-                                                     <option value="{{ $vendor->id }}" > {{ $vendor->name }}</option>
+                                                name="employee_id"> 
+                                                  <option value=""> Select Employee</option>
+                                                    @foreach($employees as $employee)
+                                                     <option value="{{ $employee->id }}" > {{ $employee->first_name }}</option>
                                                   @endforeach
 
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
-                                    
-                                    <div class="row">
-                                        <div class="col-lg-5 col-md-6 mx-auto">
-                                            <div class="form-group">
-                                                <label class="text-dark" for="password">
-                                                  Subcontractor
-                                                </label>
-                                                <select class="form-control" id="year" 
-                                                name="subcontractor_id"> 
-                                                  <option value=""> Select Subcontractor</option>
-                                                    @foreach($subcontractors as $subcontractor)
-                                                     <option value="{{ $subcontractor->id }}" > {{ $subcontractor->name }}</option>
-                                                  @endforeach
-
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-
+                              
                                     <div class="row">
                                         <div class="col-lg-5 col-md-6 mx-auto">
                                             <div class="form-group">
