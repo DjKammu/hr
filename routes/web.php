@@ -68,6 +68,7 @@ Route::resource('employee-status', App\Http\Controllers\EmployeeStatusController
 Route::resource('company-types', App\Http\Controllers\CompanyTypeController::class);
 Route::resource('document-types', App\Http\Controllers\DocumentTypeController::class);
 Route::resource('leave-types', App\Http\Controllers\LeaveTypeController::class);
+Route::resource('leave-rules', App\Http\Controllers\LeaveRuleController::class);
 
 Route::resource('documents', App\Http\Controllers\DocumentController::class);
 Route::get('companies/{id}/documents',[App\Http\Controllers\DocumentController::class,'create'])

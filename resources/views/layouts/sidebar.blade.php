@@ -96,18 +96,6 @@
             @endcan
 
 
-            @can('view')
-
-            <!-- Property Types -->
-            <!--  <li class="{{ Request::is('document-types*') ? 'active' : '' }}">
-                <a href="{{ route('document-types.index') }}">
-                    <i class="nc-icon nc-bank"></i>
-                    <i class="fa fa-file"></i>
-                    <p>Document Types</p>
-                </a>
-            </li> -->
-
-            @endcan
 
 
             @can('view')
@@ -120,6 +108,22 @@
                     <p>Files</p>
                 </a>
             </li> -->
+
+            @endcan
+
+
+            @can('view')
+
+            <!-- Property Types -->
+            
+             <li class="dropdown {{ Request::is('leave-rules*') ? 'active' : '' }}" id="myDropdown">
+                <a  data-toggle="collapse" href="#sideBarMenuCollapse" class="collapsed" >
+                    <i class="fa fa-sign-out"></i>
+                    <p>Leave Management</p></a>
+                     <ul class="{{ !Request::is('leave-rules') ? 'collapse' : '' }}" id="sideBarMenuCollapse">
+                        <li> <a href="{{ route('leave-rules.index') }}"><i class="fa fa-gavel"></i>   Leave Rules </a></li>
+                   </ul>
+            </li>
 
             @endcan
 
