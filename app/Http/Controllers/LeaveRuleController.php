@@ -74,7 +74,7 @@ class LeaveRuleController extends Controller
         $request->validate([
               'name' => 'required',
               'company_id' => 'required|exists:companies,id',
-              'leave_type_id' => 'required|exists:leave_types,id',
+              // 'leave_type_id' => 'required|exists:leave_types,id',
         ]);
             
         LeaveRule::create($data);
@@ -131,9 +131,8 @@ class LeaveRuleController extends Controller
         $request->validate([
               'name' => 'required',
               'company_id' => 'required|exists:companies,id',
-              'leave_type_id' => 'required|exists:leave_types,id',
+              // 'leave_type_id' => 'required|exists:leave_types,id',
         ]);
-
          
          $rule = LeaveRule::find($id);
         

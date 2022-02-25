@@ -56,7 +56,7 @@
                                                 <label class="text-dark" for="password">Company
                                                 </label>
                                                 <select class="form-control" name="company_id" required=""> 
-                                                  <option> Select Company</option>
+                                                  <option value=""> Select Company</option>
                                                   @foreach($companies as $company)
                                                    <option value="{{ $company->id }}" >{{ $company->name}}
                                                    </option>
@@ -72,8 +72,8 @@
                                             <div class="form-group">
                                                 <label class="text-dark" for="password">Leave Type
                                                 </label>
-                                                <select class="form-control" name="leave_type_id" required=""> 
-                                                  <option> Select Leave Type</option>
+                                                <select class="form-control" name="leave_type_id" > 
+                                                  <option value="">Select Leave Type</option>
                                                   @foreach($leaveTypes as $type)
                                                    <option value="{{ $type->id }}" >{{ $type->name}}
                                                    </option>
@@ -87,7 +87,7 @@
                                                 <label class="text-dark" for="password">Accrues Every Quarter 
                                                 </label>
                                                 <select class="form-control" name="accrues_every_quarter"> 
-                                                  <option> Select Accrues Every Quarter </option>
+                                                  <option value=""> Select Accrues Every Quarter </option>
                                                   @for ($i=0; $i < \App\Models\LeaveRule::RULE_PERIOD ; $i++)
                                                    <option value="{{ $i }}" >{{ $i}}
                                                    </option>
@@ -106,7 +106,7 @@
                                                 <label class="text-dark" for="password">Accrues Every Year
                                                 </label>
                                                 <select class="form-control" name="accrues_every_year"> 
-                                                  <option> Select Leave Type</option>
+                                                  <option value="">Select Leave Type</option>
                                                  @for ($i=0; $i < \App\Models\LeaveRule::RULE_PERIOD ; $i++)
                                                    <option value="{{ $i }}" >{{ $i}}
                                                    </option>
@@ -120,7 +120,7 @@
                                                 <label class="text-dark" for="password">Carry Over Year 
                                                 </label>
                                                 <select class="form-control" name="carry_over_year"> 
-                                                  <option> Select Accrues Every Year</option>
+                                                   <option value=""> Select Accrues Every Year</option>
                                                   
                                                    <option value="{{\App\Models\LeaveRule::YES}}" >{{\App\Models\LeaveRule::YES_TEXT}}</option>
                                                    <option value="{{\App\Models\LeaveRule::NO}}" >{{\App\Models\LeaveRule::NO_TEXT}}</option>
@@ -139,7 +139,7 @@
                                                 <label class="text-dark" for="password">Max Leave Accumulation Period 
                                                 </label>
                                                 <select class="form-control" name="max_period"> 
-                                                  <option> Select Max Leave Accumulation Period</option>
+                                                   <option value=""> Select Max Leave Accumulation Period</option>
                                                   @for ($i=0; $i < \App\Models\LeaveRule::RULE_PERIOD ; $i++)
                                                    <option value="{{ $i }}" >{{ $i}}
                                                    </option>

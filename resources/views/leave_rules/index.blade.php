@@ -50,9 +50,9 @@
                           @foreach($leaveRules as $k => $rule)
                          <tr>
                            <td> {{ $k + $leaveRules->firstItem() }}</td>
-                           <td>{{ $rule->name }}</td>
-                           <td>{{ $rule->company->name }}</td>
-                           <td>{{ $rule->leave_type->name }}</td>
+                           <td>{{ @$rule->name }}</td>
+                           <td>{{ @$rule->company->name }}</td>
+                           <td>{{ @$rule->leave_type->name }}</td>
                            <td>        
                             <button onclick="return window.location.href='leave-rules/{{$rule->id}}'" rel="tooltip" class="btn btn-neutral bg-transparent btn-icon" data-original-title="Edit Project Type" title="Edit Project Type">            <i class="fa fa-edit text-success"></i>        </button> 
                           </td>
