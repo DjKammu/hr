@@ -80,6 +80,11 @@ Route::delete('documents/{id}/file', [App\Http\Controllers\DocumentController::c
 Route::get('documents/search', [App\Http\Controllers\DocumentController::class,'search'])->name('documents.search');
 
 
+Route::post('companies/{id}/employees',[App\Http\Controllers\CompanyController::class,'addEmployees'])
+->name('companies.employees');
+
+
+
 
 
 

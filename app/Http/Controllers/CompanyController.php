@@ -340,7 +340,6 @@ class CompanyController extends Controller
          //                         ->orderBy('subcontractor_count', 'DESC')
          //                          ->pluck('subcontractor_count')->max(); 
 
-                                 
          return view('companies.edit',compact('company','companyTypes','documentTypes','employees','documents'));
     }
 
@@ -433,6 +432,26 @@ class CompanyController extends Controller
          $company->update($data);
 
         return redirect('companies')->with('message', 'Company Updated Successfully!');
+    }
+
+
+    public function addEmployees(Request $request, $id)
+    {
+        if(Gate::denies('update')) {
+               return abort('401');
+        } 
+
+        $data = $request->except('_token');
+
+        $company = Company::find($id);
+
+        if(!$company){
+            return redirect()->back();
+        }
+        
+        $company->employees()->sync($request->employees); 
+
+        return redirect('companies#employees')->with('message', 'Employee Successfully!');
     }
 
 

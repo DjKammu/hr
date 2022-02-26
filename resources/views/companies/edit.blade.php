@@ -43,6 +43,11 @@
                                             <li class="nav-item">
                                                 <a class="nav-link text-dark"  data-toggle="tab" href="#documents" role="tab"
                                                    aria-expanded="false">Documents</a>
+                                            </li> 
+
+                                             <li class="nav-item">
+                                                <a class="nav-link text-dark"  data-toggle="tab" href="#employees" role="tab"
+                                                   aria-expanded="false">Employees</a>
                                             </li>
 
                                         </ul>
@@ -53,6 +58,7 @@
 
                                     @include('companies.includes.details')
                                     @include('companies.includes.documents')
+                                    @include('companies.includes.employees')
                                     
                               </div>
 
@@ -84,6 +90,13 @@
           $("#search").click();
       }
     });
+
+
+  $("#in-employees").select2({
+      placeholder: "Select Employees",
+      allowClear: true
+  });
+
 
   });
 
@@ -175,6 +188,8 @@ $('.date').datetimepicker({
         url = url.replace(/[?#]$/,'');
         return url + (url.indexOf('?')>0 ? '&' : '?') + paramName + '=' + paramValue;
     }
+
+
 
 </script>
 <style type="text/css">
