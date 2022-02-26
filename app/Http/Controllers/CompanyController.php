@@ -451,7 +451,7 @@ class CompanyController extends Controller
         
         $company->employees()->sync($request->employees); 
 
-        return redirect('companies#employees')->with('message', 'Employee Successfully!');
+        return redirect(route('companies.show',['company' => $id]).'#employees')->with('message', 'Employee Successfully!');
     }
 
 
