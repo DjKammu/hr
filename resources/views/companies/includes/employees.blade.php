@@ -1,41 +1,54 @@
- <!-- Category Details -->
-<div class="tab-pane" id="employees" role="tabpanel" 
-aria-expanded="true">
+ <div class="tab-pane" id="employees" role="tabpanel" aria-expanded="true">
+                           
+    <div class="row mb-2">
+        <div class="col-6">
+            <h4 class="mt-0 text-left">{{ @$company->name }} - Employees List </h4>
+        </div>
+        <div class="col-6 text-right">
 
-<div class="row mb-2">
-    <div class="col-6">
-        <h4 class="mt-0 text-left"> {{ @$company->name }} - Employees</h4>
+            <button type="button" class="btn btn-danger mt-0"  onclick="return window.location.href='{{ route("companies.employees.create",['id' => request()->company ])  }}'">Add Employee
+            </button>
+        </div>
+
     </div>
+  
+
+    <!-- Categories Table -->
+    <div class="table-responsive">
+
+       <table id="project-types-table" class="table table-hover text-center">
+                        <thead>
+                        <tr class="text-danger">
+                            <th>Acc. No.</th>
+                            <th>Name</th>
+                            <th>Delete</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                          @foreach($employees as $k => $employee)
+                         <tr>
+                           <td> {{ $k + 1 }}</td>
+                           <td>{{ $employee->last_name.' '.$employee->first_name}} {{ ($employee->dob) ? '('.$employee->dob.')' : ''}}</td>
+                         
+                          <td>
+                             <form 
+                              method="post" 
+                              action="{{route('companies.employees.destroy',['id' => request()->company,'eid' => $employee->id])}}"> 
+                               @csrf
+                              {{ method_field('DELETE') }}
+
+                              <button 
+                                type="submit"
+                                onclick="return confirm('Are you sure?')"
+                                class="btn btn-neutral bg-transparent btn-icon" data-original-title="Delete Trade" title="Delete"><i class="fa fa-trash text-danger"></i> </button>
+                            </form>
+                           </td>
+                         </tr> 
+                         @endforeach
+                        <!-- Project Types Go Here -->
+                        </tbody>
+                    </table>
+
+    </div>
+
 </div>
-
- <form   method="post" 
-          action="{{ route('companies.employees',$company->id) }}" enctype="multipart/form-data">
-              @csrf
-                
-                <!-- Current Password -->
-                    <div class="row">
-                         <div class="col-lg-5 col-md-6 mx-auto">
-                            <div class="form-group">
-                                <label class="text-dark" for="password">Trades 
-                                </label>
-                                <select class="form-control" id="in-employees" name="employees[]" 
-                                multiple=""> 
-                                   @foreach($employees as $employee)
-                                   <option value="{{ $employee->id }}"  {{ (in_array($employee->id , @$company->employees->pluck('id')->toArray())) ? 'selected' : ''}}>{{ $employee->first_name.' '.$employee->last_name}}
-                                   </option>
-                                  @endforeach
-
-                                </select>
-                            </div>
-                        </div>
-                       
-                    </div>
-
-                <!-- Submit Button -->
-                <div class="col-12 text-center">
-                    <button id="change-password-button" type="submit" class="btn btn-danger">Add Employee
-                    </button>
-                </div>
-
-            </form>
-          </div>

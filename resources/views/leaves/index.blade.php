@@ -1,6 +1,6 @@
 @extends('layouts.admin-app')
 
-@section('title', 'Leave Rule')
+@section('title', 'Leaves')
 
 @section('content')
       <!-- Start Main View -->
@@ -26,10 +26,10 @@
             <div class="card-body">
                 <div class="row mb-2">
                     <div class="col-6">
-                        <h4 class="mt-0 text-left">Leave Rules List</h4>
+                        <h4 class="mt-0 text-left">Leaves List</h4>
                     </div>
                     <div class="col-6 text-right">
-                        <button type="button" class="btn btn-danger mt-0"  onclick="return window.location.href='leave-rules/create'">Add Leave Rule
+                        <button type="button" class="btn btn-danger mt-0"  onclick="return window.location.href='leaves/create'">Add Leave
                         </button>
                     </div>
                 </div>
@@ -39,27 +39,27 @@
                         <thead>
                         <tr class="text-danger">
                             <th>Acc. No.</th>
-                            <th>Leave Rule</th>
                             <th>Company</th>
+                            <th>Employee</th>
                             <th>Leave Type</th>
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>
                         </thead>
                         <tbody>
-                          @foreach($leaveRules as $k => $rule)
+                          @foreach($leaves as $k => $leave)
                          <tr>
-                           <td> {{ $k + $leaveRules->firstItem() }}</td>
-                           <td>{{ @$rule->name }}</td>
-                           <td>{{ @$rule->company->name }}</td>
-                           <td>{{ @$rule->leave_type->name }}</td>
+                           <td> {{ $k + $leaves->firstItem() }}</td>
+                           <td>{{ @$leave->company->name }}</td>
+                           <td>{{ @$leave->employee->first_name }}</td>
+                           <td>{{ @$leave->leave_type->name }}</td>
                            <td>        
-                            <button onclick="return window.location.href='leave-rules/{{$rule->id}}'" rel="tooltip" class="btn btn-neutral bg-transparent btn-icon" data-original-title="Edit Project Type" title="Edit Project Type">            <i class="fa fa-edit text-success"></i>        </button> 
+                            <button onclick="return window.location.href='leaves/{{$leave->id}}'" rel="tooltip" class="btn btn-neutral bg-transparent btn-icon" data-original-title="Edit Project Type" title="Edit Project Type">            <i class="fa fa-edit text-success"></i>        </button> 
                           </td>
                           <td>
                              <form 
                               method="post" 
-                              action="{{route('leave-rules.destroy',$rule->id)}}"> 
+                              action="{{route('leaves.destroy',$leave->id)}}"> 
                                @csrf
                               {{ method_field('DELETE') }}
 
@@ -75,7 +75,7 @@
                         </tbody>
                     </table>
                 </div>
-                 {!! $leaveRules->render() !!}
+                 {!! $leaves->render() !!}
             </div>
         </div>
     </div>

@@ -411,6 +411,7 @@ class PaymentController extends Controller
          if(Gate::denies('delete')) {
                return abort('401');
           } 
+        
 
           $path = request()->path;
 

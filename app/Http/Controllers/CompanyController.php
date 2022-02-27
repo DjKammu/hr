@@ -145,7 +145,7 @@ class CompanyController extends Controller
          $companyTypes = CompanyType::all();
 
          $documentTypes = DocumentType::all();
-         $employees = Employee::all();
+         $employees = @$company->employees()->get();
          $documents = $company->documents();
 
 
@@ -435,7 +435,7 @@ class CompanyController extends Controller
     }
 
 
-    public function addEmployees(Request $request, $id)
+    public function createEmployees(Request $request, $id)
     {
         if(Gate::denies('update')) {
                return abort('401');
@@ -449,9 +449,46 @@ class CompanyController extends Controller
             return redirect()->back();
         }
         
-        $company->employees()->sync($request->employees); 
+       $employees = Employee::all(); 
 
-        return redirect(route('companies.show',['company' => $id]).'#employees')->with('message', 'Employee Successfully!');
+       return view('companies.includes.employee-create',compact('company','employees'));
+    }
+
+
+     public function addEmployees(Request $request, $id)
+    {
+        if(Gate::denies('update')) {
+               return abort('401');
+        } 
+
+        $data = $request->except('_token');
+
+        $company = Company::find($id);
+
+        if(!$company){
+            return redirect()->back();
+        }
+        
+        $company->employees()->sync([$request->employees]); 
+
+        return redirect(route('companies.show',['company' => $id]).'#employees')->with('message', 'Employee Add Successfully!');
+    }
+
+    public function deleteEmployee (Request $request, $id, $eid)
+    {
+        if(Gate::denies('delete')) {
+               return abort('401');
+        } 
+
+        $company = Company::find($id);
+
+        if(!$company){
+            return redirect()->back();
+        }
+        
+        $company->employees()->detach([$eid]); 
+
+        return redirect(route('companies.show',['company' => $id]).'#employees')->with('message', 'Employee delete Successfully!');
     }
 
 

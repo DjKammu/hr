@@ -84,15 +84,15 @@
              @can('view')
 
      
-  <!-- Property Types -->
+             <!-- Property Types -->
             <!--  <li class="{{ Request::is('documents*') ? 'active' : '' }}">
                 <a href="{{ route('documents.search') }}">
                     <i class="nc-icon nc-bank"></i>
                     <i class="fa fa-search"></i>
                     <p>Search Documents</p>
                 </a>
-            </li>
- -->
+            </li>  -->
+
             @endcan
 
 
@@ -116,12 +116,13 @@
 
             <!-- Property Types -->
             
-             <li class="dropdown {{ Request::is('leave-rules*') ? 'active' : '' }}" id="myDropdown">
+             <li class="dropdown {{ (Request::is('leave-rules*') | Request::is('leaves*') ) ? 'active' : '' }}" id="myDropdown">
                 <a  data-toggle="collapse" href="#sideBarMenuCollapse" class="collapsed" >
                     <i class="fa fa-sign-out"></i>
                     <p>Leave Management</p></a>
-                     <ul class="{{ !Request::is('leave-rules') ? 'collapse' : '' }}" id="sideBarMenuCollapse">
-                        <li> <a href="{{ route('leave-rules.index') }}"><i class="fa fa-gavel"></i>   Leave Rules </a></li>
+                     <ul class="{{ ( Request::is('leave-rules*') | Request::is('leaves*') )  ? '' : 'collapse' }}" id="sideBarMenuCollapse">
+                        <li class="{{ Request::is('leave-rules*') ? 'active' : '' }}"> <a href="{{ route('leave-rules.index') }}"><i class="fa fa-gavel"></i>   Leave Rules </a></li>
+                        <li class="{{  Request::is('leaves*')  ? 'active' : '' }}"> <a href="{{ route('leaves.index') }}"><i class="fa fa-suitcase"></i> Leaves </a></li>
                    </ul>
             </li>
 

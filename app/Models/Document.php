@@ -17,7 +17,7 @@ class Document extends Model
      CONST PROJECT   = 'project';
 
      CONST EMPLOYEES  = 'employees';
-     // CONST EMPLOYEE   = 'employee';
+     CONST LEAVES     = 'leaves';
 
     CONST COMPANIES  = 'companies';
     CONST COMPANY    = 'company';

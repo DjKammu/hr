@@ -62,6 +62,7 @@ Route::resource('roles', App\Http\Controllers\RoleController::class)->middleware
 Route::resource('departments', App\Http\Controllers\DepartmentController::class);
 Route::resource('employees', App\Http\Controllers\EmployeeController::class);
 Route::resource('companies', App\Http\Controllers\CompanyController::class);
+Route::resource('leaves', App\Http\Controllers\LeaveController::class);
 
 
 Route::resource('employee-status', App\Http\Controllers\EmployeeStatusController::class);
@@ -80,8 +81,13 @@ Route::delete('documents/{id}/file', [App\Http\Controllers\DocumentController::c
 Route::get('documents/search', [App\Http\Controllers\DocumentController::class,'search'])->name('documents.search');
 
 
+
+Route::get('companies/{id}/employees',[App\Http\Controllers\CompanyController::class,'createEmployees'])->name('companies.employees.create');
+
 Route::post('companies/{id}/employees',[App\Http\Controllers\CompanyController::class,'addEmployees'])
-->name('companies.employees');
+->name('companies.employees.store');
+Route::delete('companies/{id}/employees/{eid}',[App\Http\Controllers\CompanyController::class,
+    'deleteEmployee'])->name('companies.employees.destroy');
 
 
 
