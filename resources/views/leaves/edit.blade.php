@@ -146,3 +146,14 @@
 </div>
 
 @endsection
+
+
+@section('pagescript')
+
+<script type="text/javascript">  
+$('.date').datetimepicker({
+    format: 'Y-M-D'
+});
+</script>
+
+@endsection

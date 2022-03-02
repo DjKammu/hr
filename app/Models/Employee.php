@@ -24,8 +24,8 @@ class Employee extends Model
     	return $this->belongsTo(EmployeeStatus::class);
     }
 
-    public function documents(){
-    	return $this->hasMany(Document::class);
+    public function leaves(){
+    	return $this->hasMany(Leave::class);
     }
 
     

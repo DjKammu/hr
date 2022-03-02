@@ -8,7 +8,7 @@ use App\Models\Company;
 use App\Models\Document;
 use App\Models\Leave;
 use Gate;
-
+use Carbon\Carbon;
 
 class LeaveController extends Controller
 {
@@ -57,7 +57,8 @@ class LeaveController extends Controller
          $company = ($request->filled('c')) ? $companiesQry->where('id',$request->c)->first() 
                       : $companies->first();     
 
-         $employees = @$company->employees()->get();  
+
+         $employees = @$company->employees()->get();    
 
          $leaveTypes = LeaveType::all(); 
 
@@ -199,5 +200,53 @@ class LeaveController extends Controller
          $leave->delete();       
 
         return redirect()->back()->with('message', 'Leave Delete Successfully!');
+    }
+
+
+    public function getCmployeeLeaves(Request $request){
+        
+        if(Gate::denies('view')) {
+               return abort('401');
+        }
+
+         $companiesQry = Company::query(); 
+         $companies = $companiesQry->get();
+         
+         $startDate = ($request->filled('year')) ? Carbon::parse($request->year.'-1-1')->startOfYear()->format('Y-m-d')  : Carbon::now()->startOfYear()->format('Y-m-d');
+         $endDate =  ($request->filled('year')) ? Carbon::parse($request->year.'-1-1')->endOfYear()->format('Y-m-d')  : Carbon::now()->endOfYear()->format('Y-m-d');
+
+         $company = ($request->filled('c')) ? $companiesQry->where('id',$request->c)->first() 
+                      : $companies->first();     
+
+         $employees = @$company->employees()->paginate((new Leave())->perPage); 
+
+       
+         $all_leave_types = [];              
+        
+         $employees->filter(function($employee) use (&$all_leave_types, $startDate, $endDate){
+             
+             $employee_leaves = @$employee->leaves()
+                               ->where('start_date', '>=', $startDate)
+                               ->where('end_date', '<=', $endDate);    
+    
+            $leave_types =  LeaveType::whereIn('id', @$employee_leaves->pluck('leave_type_id'))
+                            ->get();
+                                              
+            $leavesArr = [];
+
+            foreach (@$leave_types as $key => $type) {
+                $leavesArr[$type->id] = @$employee_leaves->where('leave_type_id',$type->id)
+                                           ->count(); 
+                $all_leave_types[$type->id] = $type->name;                                
+            }
+
+            $employee->leave_types  = $leavesArr;
+
+            return $employee;
+          
+        });
+
+        return view('leaves.employees-leaves',compact('company','companies','employees','all_leave_types'));
+
     }
 }

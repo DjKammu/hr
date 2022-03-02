@@ -91,6 +91,7 @@ Route::delete('companies/{id}/employees/{eid}',[App\Http\Controllers\CompanyCont
 
 
 
+Route::get('employees-leaves',[App\Http\Controllers\LeaveController::class,'getCmployeeLeaves'])->name('employees.leaves');
 
 
 

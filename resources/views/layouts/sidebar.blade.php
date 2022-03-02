@@ -116,13 +116,14 @@
 
             <!-- Property Types -->
             
-             <li class="dropdown {{ (Request::is('leave-rules*') | Request::is('leaves*') ) ? 'active' : '' }}" id="myDropdown">
+             <li class="dropdown {{ Request::is('leave-rules*','leaves*','employees-leaves*') ? 'active' : '' }}" id="myDropdown">
                 <a  data-toggle="collapse" href="#sideBarMenuCollapse" class="collapsed" >
                     <i class="fa fa-sign-out"></i>
                     <p>Leave Management</p></a>
-                     <ul class="{{ ( Request::is('leave-rules*') | Request::is('leaves*') )  ? '' : 'collapse' }}" id="sideBarMenuCollapse">
+                     <ul class="{{ Request::is('leave-rules*','leaves*','employees-leaves*') ? '' : 'collapse' }}" id="sideBarMenuCollapse">
                         <li class="{{ Request::is('leave-rules*') ? 'active' : '' }}"> <a href="{{ route('leave-rules.index') }}"><i class="fa fa-gavel"></i>   Leave Rules </a></li>
                         <li class="{{  Request::is('leaves*')  ? 'active' : '' }}"> <a href="{{ route('leaves.index') }}"><i class="fa fa-suitcase"></i> Leaves </a></li>
+                        <li class="{{  Request::is('employees-leaves*')  ? 'active' : '' }}"> <a href="{{ route('employees.leaves') }}"><i class="fa fa-users"></i> Company Employee Leaves </a></li>
                    </ul>
             </li>
 
