@@ -95,7 +95,7 @@
                                                 <select class="form-control" name="accrues_every_quarter"> 
                                                   <option value=""> Select Accrues Every Quarter </option>
                                                   <option value="{{\App\Models\LeaveRule::NO}}" {{ 
-                                                  ($rule->accrues_every_year == 0) ? 'selected=""' : ''}}>{{\App\Models\LeaveRule::NO_TEXT}}</option>
+                                                  ($rule->accrues_every_quarter == 0) ? 'selected=""' : ''}}>{{\App\Models\LeaveRule::NO_TEXT}}</option>
                                                   @for ($i=1; $i <= \App\Models\LeaveRule::RULE_PERIOD ; $i++)
                                                    <option value="{{ $i }}" {{ 
                                                   ($rule->accrues_every_quarter == $i) ? 'selected=""' : ''}}>{{ $i}}

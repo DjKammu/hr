@@ -306,6 +306,7 @@ class LeaveController extends Controller
                    }
 
                 }else{
+
                    if($diffInMonths > $accrualAfter){
                         $totalDays = @$leaveRule->accrues_every_year;
                    }
