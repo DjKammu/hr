@@ -94,20 +94,19 @@
 
                                         <div class="col-lg-6 col-md-6">
                                             <div class="form-group">
-                                                <label class="text-dark" for="password">Project Start Date 
+                                                <label class="text-dark" for="password">Leave Start Date 
                                                 </label>
-                                                <input  name="start_date"  type="text" class="form-control date" placeholder="Start Date">
+                                                <input  name="start_date"  type="text" class="form-control date" placeholder="Start Date" required="">
                                             </div>
                                         </div>
 
                                         <div class="col-lg-6 col-md-6">
                                             <div class="form-group">
-                                                <label class="text-dark" for="password">Project End Date 
+                                                <label class="text-dark" for="password">Leave End Date 
                                                 </label>
-                                                <input  name="end_date" type="text" class="form-control date" placeholder="End Date">
+                                                <input  name="end_date" type="text" class="form-control date" placeholder="End Date" required="">
                                             </div>
                                         </div>
-
 
                                          <div class="col-lg-6 col-md-6">
                                             <div class="form-group">
@@ -116,9 +115,7 @@
                                                 <input  name="image"  type="file">
                                             </div>
                                         </div>
-
-                                    
-                                        
+ 
                                     </div> 
 
 

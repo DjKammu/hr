@@ -29,7 +29,7 @@
             <div class="card-body">
               <div class="row mb-2">
                     <div class="col-6">
-                        <h4 class="mt-0 text-left">{{ @$company->name }} - Add Employee</h4>
+                        <h4 class="mt-0 text-left">{{ @$company->name }} - Edit Employee</h4>
                     </div>
                 </div>
 
@@ -37,7 +37,7 @@
                         <div class="col-md-12">
                             <div class="card-body">
                                 <form   method="post" 
-                                action="{{ route('companies.employees.store',$company->id) }}" enctype="multipart/form-data">
+                                action="{{ route('companies.employees.update',['id' => $company->id, 'eid' => $employee->id ]) }}" enctype="multipart/form-data">
                                     @csrf
                                       
                                       <!-- Current Password -->
@@ -48,12 +48,9 @@
                                                         Employees 
                                                       </label>
                                                       <select class="form-control" id="in-employees" name="employees"> 
-                                                         <option value=""> Select Employee</option>
-                                                         @foreach($employees as $employee)
+                                                      
                                                          <option value="{{ $employee->id }}">{{ $employee->first_name.' '.$employee->last_name}}
                                                          </option>
-                                                        @endforeach
-
                                                       </select>
                                                   </div>
                                               </div>
@@ -65,7 +62,7 @@
                                                   <label class="text-dark" for="password">
                                                     Date of Joining 
                                                   </label>
-                                                  <input  name="date_of_joining"  type="text" class=" form-control date" placeholder=" Date of Joining ">
+                                                  <input  name="date_of_joining" value="{{ $employee->pivot->date_of_joining }}" type="text" class=" form-control date" placeholder=" Date of Joining ">
                                                 </div>
                                               </div>
                                              
@@ -77,7 +74,7 @@
                                                   <label class="text-dark" for="password">
                                                     Termination Date
                                                   </label>
-                                                  <input  name="termination_date"  type="text" class=" form-control date" placeholder="Termination Date">
+                                                  <input value="{{ $employee->pivot->termination_date }}" name="termination_date"  type="text" class=" form-control date" placeholder="Termination Date">
                                                 </div>
                                               </div>
                                              
@@ -85,7 +82,7 @@
 
                                       <!-- Submit Button -->
                                       <div class="col-12 text-center">
-                                          <button id="change-password-button" type="submit" class="btn btn-danger">Add Employee
+                                          <button id="change-password-button" type="submit" class="btn btn-danger">Update Employee
                                           </button>
                                       </div>
 

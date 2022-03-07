@@ -77,7 +77,7 @@
                                             <div class="form-group">
                                                 <label class="text-dark" for="password">Leave Type
                                                 </label>
-                                                <select class="form-control" name="leave_type_id" > 
+                                                <select class="form-control" name="leave_type_id" required=""> 
                                                   <option value=""> Select Leave Type</option>
                                                   @foreach($leaveTypes as $type)
                                                    <option value="{{ $type->id }}" {{ 
@@ -94,7 +94,9 @@
                                                 </label>
                                                 <select class="form-control" name="accrues_every_quarter"> 
                                                   <option value=""> Select Accrues Every Quarter </option>
-                                                  @for ($i=0; $i < \App\Models\LeaveRule::RULE_PERIOD ; $i++)
+                                                  <option value="{{\App\Models\LeaveRule::NO}}" {{ 
+                                                  ($rule->accrues_every_year == 0) ? 'selected=""' : ''}}>{{\App\Models\LeaveRule::NO_TEXT}}</option>
+                                                  @for ($i=1; $i <= \App\Models\LeaveRule::RULE_PERIOD ; $i++)
                                                    <option value="{{ $i }}" {{ 
                                                   ($rule->accrues_every_quarter == $i) ? 'selected=""' : ''}}>{{ $i}}
                                                    </option>
@@ -110,11 +112,13 @@
 
                                         <div class="col-lg-6 col-md-6">
                                             <div class="form-group">
-                                                <label class="text-dark" for="password">Accrues Every Year
+                                                <label class="text-dark" for="password">Acrual Days
                                                 </label>
                                                 <select class="form-control" name="accrues_every_year"> 
-                                                 <option value=""> Select Leave Type</option>
-                                                 @for ($i=0; $i < \App\Models\LeaveRule::RULE_PERIOD ; $i++)
+                                                  <option value="">Select Acrual Days</option>
+                                                  <option value="{{\App\Models\LeaveRule::NO}}" {{ 
+                                                  ($rule->accrues_every_year == 0) ? 'selected=""' : ''}}>{{\App\Models\LeaveRule::NO_TEXT}}</option>
+                                                 @for ($i=1; $i <= \App\Models\LeaveRule::RULE_PERIOD ; $i++)
                                                    <option value="{{ $i }}" {{ 
                                                   ($rule->accrues_every_year == $i) ? 'selected=""' : ''}}>{{ $i}}
                                                    </option>
@@ -127,7 +131,7 @@
                                             <div class="form-group">
                                                 <label class="text-dark" for="password">Carry Over Year 
                                                 </label>
-                                                <select class="form-control" name="carry_over_year"> 
+                                                <select class="form-control" name="carry_over_year" required=""> 
                                                    <option value=""> Select Accrues Every Year</option>
                                                    <option {{ 
                                                   ($rule->carry_over_year == \App\Models\LeaveRule::YES) ? 'selected=""' : ''}} value="{{\App\Models\LeaveRule::YES}}" >{{\App\Models\LeaveRule::YES_TEXT}}</option>
@@ -147,9 +151,9 @@
                                             <div class="form-group">
                                                 <label class="text-dark" for="password">Max Leave Accumulation Period 
                                                 </label>
-                                                <select class="form-control" name="max_period"> 
+                                                <select class="form-control" name="max_period" required=""> 
                                                   <option value=""> Select Max Leave Accumulation Period</option>
-                                                  @for ($i=0; $i < \App\Models\LeaveRule::RULE_PERIOD ; $i++)
+                                                  @for ($i=0; $i <= \App\Models\LeaveRule::RULE_PERIOD ; $i++)
                                                    <option value="{{ $i }}" {{ 
                                                   ($rule->max_period == $i) ? 'selected=""' : ''}}>{{ $i}}
                                                    </option>
@@ -157,11 +161,23 @@
                                                 </select>
                                             </div>
                                         </div>
-                                    
                                         
+                                        <div class="col-lg-6 col-md-6">
+                                            <div class="form-group">
+                                                <label class="text-dark" for="password">Leaves Accrual After
+                                                </label>
+                                                <select class="form-control" name="leaves_accrual_after" required=""> 
+                                                   <option value=""> Leaves Accrual After</option>
+                                                  @for ($i=0; $i <=  \App\Models\LeaveRule::ACCRUAL_AFTER_PERIOD ; $i++)
+                                                   <option value="{{ $i }}" {{ 
+                                                  ($rule->leaves_accrual_after == $i) ? 'selected=""' : ''}} >{{ $i}}  Month(s)
+                                                   </option>
+                                                  @endfor
+                                                </select>
+                                            </div>
+                                        </div>            
                                     </div>
-
-
+                                    
                                     <!-- Submit Button -->
                                     <div class="col-12 text-center">
                                         <button id="change-password-button" type="submit" class="btn btn-danger">Update Leave Rule

@@ -42,6 +42,7 @@
                             <th>Company</th>
                             <th>Employee</th>
                             <th>Leave Type</th>
+                            <th>Leave Days</th>
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>
@@ -53,6 +54,7 @@
                            <td>{{ @$leave->company->name }}</td>
                            <td>{{ @$leave->employee->first_name }}</td>
                            <td>{{ @$leave->leave_type->name }}</td>
+                           <td>{{ \Carbon\Carbon::parse($leave->start_date)->diffInDays($leave->end_date) + 1}}</td>
                            <td>        
                             <button onclick="return window.location.href='leaves/{{$leave->id}}'" rel="tooltip" class="btn btn-neutral bg-transparent btn-icon" data-original-title="Edit Project Type" title="Edit Project Type">            <i class="fa fa-edit text-success"></i>        </button> 
                           </td>

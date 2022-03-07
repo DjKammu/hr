@@ -51,7 +51,7 @@
                             <th>Employee</th>
                             <th>Date Of Birth</th>
                             @foreach($all_leave_types as $type)
-                               <th>{{ $type }}</th>
+                               <th>{{ $type->name }}</th>
                             @endforeach
                         </tr>
                         </thead>
@@ -62,7 +62,7 @@
                            <td>{{ @$employee->last_name.' '.$employee->first_name}}</td>
                            <td>{{ $employee->dob}}</td>
                            @foreach($all_leave_types as $key => $type)
-                               <td>{{ @$employee->leave_types[$key] }}</td>
+                               <td>{{ @$employee->leave_types[$type->id]['left'] }}</td>
                             @endforeach
                          </tr> 
                          @endforeach

@@ -437,7 +437,7 @@ class CompanyController extends Controller
 
     public function createEmployees(Request $request, $id)
     {
-        if(Gate::denies('update')) {
+        if(Gate::denies('add')) {
                return abort('401');
         } 
 
@@ -454,10 +454,9 @@ class CompanyController extends Controller
        return view('companies.includes.employee-create',compact('company','employees'));
     }
 
-
-     public function addEmployees(Request $request, $id)
+    public function editEmployees(Request $request, $id, $eid)
     {
-        if(Gate::denies('update')) {
+        if(Gate::denies('edit')) {
                return abort('401');
         } 
 
@@ -469,9 +468,51 @@ class CompanyController extends Controller
             return redirect()->back();
         }
         
-        $company->employees()->sync([$request->employees]); 
+       $employees = Employee::all(); 
+
+       $employee = $company->employees()->whereEmployeeId($eid)->first();
+
+       return view('companies.includes.employee-edit',compact('company','employees','employee'));
+    }
+
+
+     public function addEmployees(Request $request, $id)
+    {
+        if(Gate::denies('add')) {
+               return abort('401');
+        } 
+
+        $data = $request->except('_token','employees');
+
+        $company = Company::find($id);
+
+        if(!$company){
+            return redirect()->back();
+        }   
+
+        $company->employees()->syncWithPivotValues([$request->employees],$data); 
 
         return redirect(route('companies.show',['company' => $id]).'#employees')->with('message', 'Employee Add Successfully!');
+    } 
+
+     public function updateEmployees(Request $request, $id, $eid)
+    {
+        if(Gate::denies('update')) {
+               return abort('401');
+        } 
+
+        $data = $request->except('_token','employees');
+
+        $company = Company::find($id);
+
+        if(!$company){
+            return redirect()->back();
+        }   
+        
+
+        $company->employees()->syncWithPivotValues([$request->employees],$data); 
+
+        return redirect(route('companies.show',['company' => $id]).'#employees')->with('message', 'Employee Updated Successfully!');
     }
 
     public function deleteEmployee (Request $request, $id, $eid)

@@ -94,7 +94,7 @@
 
                                     <div class="col-lg-6 col-md-6">
                                             <div class="form-group">
-                                                <label class="text-dark" for="password">Project Start Date 
+                                                <label class="text-dark" for="password">Leave Start Date 
                                                 </label>
                                                 <input  name="start_date"  type="text" value="{{ @$leave->start_date }}" class="form-control date" placeholder="Start Date">
                                             </div>
@@ -102,7 +102,7 @@
 
                                         <div class="col-lg-6 col-md-6">
                                             <div class="form-group">
-                                                <label class="text-dark" for="password">Project End Date 
+                                                <label class="text-dark" for="password">Leave End Date 
                                                 </label>
                                                 <input value="{{ @$leave->end_date }}" name="end_date" type="text" class="form-control date" placeholder="End Date">
                                             </div>

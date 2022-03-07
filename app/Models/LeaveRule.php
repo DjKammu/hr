@@ -12,6 +12,9 @@ class LeaveRule extends Model
     protected $perPage = 20;
 
     CONST RULE_PERIOD     = 10;
+    CONST ACCRUAL_AFTER_PERIOD  = 12;
+    CONST QUARTER_PERIOD  = 3;
+    CONST YEAR_PERIOD  = 12;
     CONST YES       = 1;
     CONST NO        = 0; 
     CONST YES_TEXT  = 'Yes';
@@ -20,7 +23,7 @@ class LeaveRule extends Model
     protected $fillable = [
      'name' , 'company_id' ,'leave_type_id', 
      'accrues_every_quarter', 'accrues_every_year',
-     'carry_over_year', 'max_period'
+     'carry_over_year', 'max_period','leaves_accrual_after'
     ];
     
 

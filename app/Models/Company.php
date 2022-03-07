@@ -27,6 +27,7 @@ class Company extends Model
     } 
 
     public function employees(){
-        return $this->belongsToMany(Employee::class)->withTimestamps();
+        return $this->belongsToMany(Employee::class)->withTimestamps()
+         ->withPivot('date_of_joining', 'termination_date');
     }
 }

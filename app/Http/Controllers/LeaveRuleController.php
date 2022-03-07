@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use App\Models\LeaveRule;
 use App\Models\LeaveType;
@@ -73,9 +74,35 @@ class LeaveRuleController extends Controller
 
         $request->validate([
               'name' => 'required',
-              'company_id' => 'required|exists:companies,id',
-              // 'leave_type_id' => 'required|exists:leave_types,id',
-        ]);
+              'company_id'    => 'required|exists:companies,id',
+              'leave_type_id' => [
+                'required','exists:leave_types,id', Rule::unique(LeaveRule::class)->where(function ($query) {
+                      return $query->where('company_id', request()->company_id)->where('leave_type_id', request()->leave_type_id);
+                  })
+              ],
+              'accrues_every_quarter' => [
+                   function ($attribute, $value, $fail) {
+                    if ( ( request()->filled($attribute) && request()->accrues_every_quarter == LeaveRule::NO ) === (request()->filled('accrues_every_year') && request()->accrues_every_year == LeaveRule::NO )) {
+                        return $fail('Accrues Every Quarter or Acrual Days required only
+                         one of them!');
+                    }
+                }
+              ],
+              'accrues_every_year'    => 'required_without:accrues_every_quarter',
+               'carry_over_year'       => 'required',
+              'leaves_accrual_after'  => 'required',
+              'max_period'  => function ($attribute, $value, $fail) {
+                  if ( (request()->max_period > LeaveRule::NO) && (request()->carry_over_year ==LeaveRule::NO) ) {
+                      $message = 'Max Period not required if Carry Over Year!';
+                     
+                  }elseif( (request()->max_period <= LeaveRule::NO) && (request()->carry_over_year == LeaveRule::YES) ){
+                       $message = 'Max Period required if Carry Over Year!';
+                  }
+                  return (@$message) ? $fail($message) : false;
+              }
+            ],['leave_type_id.unique' => 'Levae Rule already exists for same company and
+              same leave type!',
+              'accrues_every_year.required_without' => '']);
             
         LeaveRule::create($data);
 
@@ -127,13 +154,39 @@ class LeaveRuleController extends Controller
         } 
 
         $data = $request->except('_token');
-
+        
         $request->validate([
               'name' => 'required',
-              'company_id' => 'required|exists:companies,id',
-              // 'leave_type_id' => 'required|exists:leave_types,id',
-        ]);
-         
+              'company_id'    => 'required|exists:companies,id',
+              'leave_type_id' => [
+                'required','exists:leave_types,id', Rule::unique(LeaveRule::class)->where(function ($query) use ($id) {
+                      return $query->where('id','<>', $id)->where('company_id', request()->company_id)->where('leave_type_id', request()->leave_type_id);
+                  })
+              ],
+              'accrues_every_quarter' => [
+                   function ($attribute, $value, $fail) {
+                    if ( ( request()->filled($attribute) && request()->accrues_every_quarter == LeaveRule::NO ) === (request()->filled('accrues_every_year') && request()->accrues_every_year == LeaveRule::NO )) {
+                        return $fail('Accrues Every Quarter or Acrual Days required only
+                         one of them!');
+                    }
+                }
+              ],
+              'accrues_every_year'    => 'required_without:accrues_every_quarter',
+              'carry_over_year'       => 'required',
+              'leaves_accrual_after'  => 'required',
+              'max_period'  => function ($attribute, $value, $fail) {
+                  if ( (request()->max_period > LeaveRule::NO) && (request()->carry_over_year ==LeaveRule::NO) ) {
+                      $message = 'Max Period not required if Carry Over Year!';
+                     
+                  }elseif( (request()->max_period <= LeaveRule::NO) && (request()->carry_over_year == LeaveRule::YES) ){
+                       $message = 'Max Period required if Carry Over Year!';
+                  }
+                  return (@$message) ? $fail($message) : false;
+              }
+             ],['leave_type_id.unique' => 'Levae Rule already exists for same company and same leave type!',
+              'accrues_every_year.required_without' => '']);
+
+
          $rule = LeaveRule::find($id);
         
          if(!$rule){

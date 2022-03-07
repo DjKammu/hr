@@ -83,9 +83,12 @@ Route::get('documents/search', [App\Http\Controllers\DocumentController::class,'
 
 
 Route::get('companies/{id}/employees',[App\Http\Controllers\CompanyController::class,'createEmployees'])->name('companies.employees.create');
-
 Route::post('companies/{id}/employees',[App\Http\Controllers\CompanyController::class,'addEmployees'])
 ->name('companies.employees.store');
+Route::get('companies/{id}/employees/{eid}',[App\Http\Controllers\CompanyController::class,
+    'editEmployees'])->name('companies.employees.edit');
+Route::post('companies/{id}/employees/{eid}',[App\Http\Controllers\CompanyController::class,
+    'updateEmployees'])->name('companies.employees.update');
 Route::delete('companies/{id}/employees/{eid}',[App\Http\Controllers\CompanyController::class,
     'deleteEmployee'])->name('companies.employees.destroy');
 
@@ -94,6 +97,12 @@ Route::delete('companies/{id}/employees/{eid}',[App\Http\Controllers\CompanyCont
 Route::get('employees-leaves',[App\Http\Controllers\LeaveController::class,'getCmployeeLeaves'])->name('employees.leaves');
 
 
+
+
+
+
+
+/*************          Unused Routes           ********/
 
 Route::get('files/{directory?}',[App\Http\Controllers\FileController::class,'index'])->name('files.index');
 

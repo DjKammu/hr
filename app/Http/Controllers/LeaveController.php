@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use App\Models\LeaveRule;
 use App\Models\LeaveType;
@@ -82,9 +83,15 @@ class LeaveController extends Controller
         $request->validate([
               'company_id' => 'required|exists:companies,id',
               'employee_id' => 'required|exists:employees,id',
-               'leave_type_id' => 'required|exists:leave_types,id',
+              'leave_type_id' => 'required|exists:leave_types,id',
+              'start_date' => 
+               function ($attribute, $value, $fail) {
+                        $exists =  LeaveRule::where('company_id', request()->company_id)->where('leave_type_id', request()->leave_type_id)->exists();
+
+                        return (@$exists == false) ? $fail('Leave Rule not exists for company and leave type!') : false;
+              },
+              'end_date'=> 'required|after_or_equal:start_date' 
         ]);
-            
 
          $data['image'] = '';    
 
@@ -158,6 +165,13 @@ class LeaveController extends Controller
               'company_id' => 'required|exists:companies,id',
               'employee_id' => 'required|exists:employees,id',
               'leave_type_id' => 'required|exists:leave_types,id',
+              'start_date' => 
+               function ($attribute, $value, $fail) {
+                        $exists =  LeaveRule::where('company_id', request()->company_id)->where('leave_type_id', request()->leave_type_id)->exists();
+
+                        return (@$exists == false) ? $fail('Leave Rule not exists for company and leave type!') : false;
+              },
+              'end_date'=> 'required|after_or_equal:start_date' 
         ]);
 
          $leave = Leave::find($id);
@@ -220,33 +234,92 @@ class LeaveController extends Controller
 
          $employees = @$company->employees()->paginate((new Leave())->perPage); 
 
-       
-         $all_leave_types = [];              
-        
-         $employees->filter(function($employee) use (&$all_leave_types, $startDate, $endDate){
-             
-             $employee_leaves = @$employee->leaves()
-                               ->where('start_date', '>=', $startDate)
-                               ->where('end_date', '<=', $endDate);    
-    
-            $leave_types =  LeaveType::whereIn('id', @$employee_leaves->pluck('leave_type_id'))
-                            ->get();
-                                              
-            $leavesArr = [];
+         $all_leave_types = LeaveType::all();   
 
-            foreach (@$leave_types as $key => $type) {
-                $leavesArr[$type->id] = @$employee_leaves->where('leave_type_id',$type->id)
-                                           ->count(); 
-                $all_leave_types[$type->id] = $type->name;                                
-            }
+         $employees->filter(function($employee) use ($startDate, $endDate){
 
-            $employee->leave_types  = $leavesArr;
-
-            return $employee;
+             $employee->leave_types = $this->getLeaveSummary($employee, $startDate, $endDate);
+      
+              return $employee;
           
         });
+       
 
         return view('leaves.employees-leaves',compact('company','companies','employees','all_leave_types'));
 
+    }
+
+
+    function getLeaveSummary($employee, $startDate, $endDate){
+
+       $leave_types = LeaveType::all();   
+
+       $employee_leaves = @$employee->leaves()
+                               ->where('start_date', '>=', $startDate)
+                               ->where('end_date', '<=', $endDate);  
+
+       $currentDate = Carbon::now();  
+       // $currentDate = '2026-01-01';  
+       $joiningDate = $employee->pivot->date_of_joining;
+       $joiningYear = Carbon::parse($joiningDate)->format('Y');
+       $maxPeriod = $accrualAfter = 0;  
+
+       $leavesArr = [];
+
+       foreach (@$leave_types as $key => $type) {
+
+            $leaveRule = LeaveRule::where(['leave_type_id' => $type->id,
+                          'company_id' => $employee->pivot->company_id])->first();  
+
+            $noOfDays = (@$leaveRule->accrues_every_quarter  > 0) ? $leaveRule->accrues_every_quarter : $leaveRule->accrues_every_year;
+          
+
+            $carry_over_year = @$leaveRule->carry_over_year;
+            $maxPeriod      = @$leaveRule->max_period;
+            $accrualAfter   = @$leaveRule->leaves_accrual_after;
+            $diffInMonths   = Carbon::parse($joiningDate)->diffInMonths($currentDate); 
+
+            $totalDays = $remainingMonths = 0;
+
+            if($carry_over_year == LeaveRule::YES){
+                $carryOverPeriod = LeaveRule::YEAR_PERIOD*$maxPeriod;
+                $diffInMonths = ($diffInMonths > $carryOverPeriod) ? ($diffInMonths - $carryOverPeriod) : $diffInMonths;
+
+                if(@$leaveRule->accrues_every_quarter) {
+                   $remainingMonths = $diffInMonths  - $accrualAfter ;
+                   if(($diffInMonths > LeaveRule::QUARTER_PERIOD) && ($diffInMonths > $accrualAfter)){
+                        $totalDays = intdiv($remainingMonths,LeaveRule::QUARTER_PERIOD);
+                   }
+
+                }else{
+                   if($diffInMonths > $accrualAfter){
+                        $totalDays = @$leaveRule->accrues_every_year;
+                   }
+                }
+
+            }else{
+                $diffInMonths = $diffInMonths%12;  
+                if(@$leaveRule->accrues_every_quarter) {
+                   $remainingMonths = $diffInMonths  - $accrualAfter ;
+                   if(($diffInMonths > LeaveRule::QUARTER_PERIOD) && ($diffInMonths > $accrualAfter)){
+                        $totalDays = intdiv($remainingMonths,LeaveRule::QUARTER_PERIOD);
+                   }
+
+                }else{
+                   if($diffInMonths > $accrualAfter){
+                        $totalDays = @$leaveRule->accrues_every_year;
+                   }
+                }
+            }
+
+            $leaveCount  = @$employee_leaves->where(['leave_type_id' => $type->id,
+                          'company_id' => $employee->pivot->company_id])->count();
+
+            $leavesArr[$type->id]['count'] = @$leaveCount;
+            $leavesArr[$type->id]['left'] = $totalDays - $leaveCount;
+              
+       }
+
+       return $leavesArr;
     }
 }

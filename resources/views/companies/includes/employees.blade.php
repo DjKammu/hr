@@ -21,6 +21,7 @@
                         <tr class="text-danger">
                             <th>Acc. No.</th>
                             <th>Name</th>
+                            <th>Edit</th>
                             <th>Delete</th>
                         </tr>
                         </thead>
@@ -29,14 +30,16 @@
                          <tr>
                            <td> {{ $k + 1 }}</td>
                            <td>{{ $employee->last_name.' '.$employee->first_name}} {{ ($employee->dob) ? '('.$employee->dob.')' : ''}}</td>
-                         
+                          <td>        
+                            <button onclick="return window.location.href='{{ request()->company }}/employees/{{$employee->id}}'" rel="tooltip" class="btn btn-neutral bg-transparent btn-icon" data-original-title="Edit Company Type" title="Edit Company Type"> <i class="fa fa-edit text-success"></i> </button> 
+                          </td>
                           <td>
                              <form 
                               method="post" 
                               action="{{route('companies.employees.destroy',['id' => request()->company,'eid' => $employee->id])}}"> 
                                @csrf
                               {{ method_field('DELETE') }}
-
+          
                               <button 
                                 type="submit"
                                 onclick="return confirm('Are you sure?')"
