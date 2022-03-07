@@ -271,7 +271,7 @@ class LeaveController extends Controller
             $leaveRule = LeaveRule::where(['leave_type_id' => $type->id,
                           'company_id' => $employee->pivot->company_id])->first();  
 
-            $noOfDays = (@$leaveRule->accrues_every_quarter  > 0) ? $leaveRule->accrues_every_quarter : $leaveRule->accrues_every_year;
+            $noOfDays = (@$leaveRule->accrues_every_quarter  > 0) ? @$leaveRule->accrues_every_quarter : @$leaveRule->accrues_every_year;
           
 
             $carry_over_year = @$leaveRule->carry_over_year;
